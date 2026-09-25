@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// What a vehicle *is*: mass, centre of mass, suspension, motor and air-rotation values.
-/// Every tunable driving number lives here so a tuning pass never needs a recompile (GDD §3).
+/// Every tunable driving number lives here so a tuning pass never needs a recompile.
 /// </summary>
 [CreateAssetMenu(fileName = "VehicleConfig", menuName = "Hill Races/Vehicle Config")]
 public class VehicleConfig : ScriptableObject
