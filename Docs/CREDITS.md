@@ -1,26 +1,40 @@
 # Credits
 
-Every asset used in this project is released under **CC0 1.0 Universal**
-(public domain dedication). Attribution is not legally required under
-CC0, but is given here regardless.
+This file lists the source and licence of every third-party asset in the
+project. It is updated as assets are chosen.
 
-This file is filled in as assets are chosen. An asset is only used if
-its source page states CC0 explicitly - on itch.io, that is the
-**Asset licence** field in the page's info table. A pack that is free to
-download but states no licence at all is treated as all rights reserved
-and is not used.
+## Physics Car Game Asset Pack
 
-| Asset                       | Author / Source | Licence |
-| --------------------------- | --------------- | ------- |
-| Buggy body and wheels       |                 | CC0 1.0 |
-| Driver                      |                 | CC0 1.0 |
-| Fuel can, coin, finish gate |                 | CC0 1.0 |
-| Terrain - dirt fill         |                 | CC0 1.0 |
-| Terrain - grass edge        |                 | CC0 1.0 |
-| Parallax layers             |                 | CC0 1.0 |
-| Dust and debris particles   |                 | CC0 1.0 |
-| Sound effects               |                 | CC0 1.0 |
-| Music loop                  |                 | CC0 1.0 |
+**Author:** LucyLavend
+**Source:** https://lucylavend.itch.io/physics-car-game-asset-pack
+**Terms:** free for personal and commercial use; resale and redistribution
+of the assets on their own are not permitted. Credit is optional and is
+given here.
+
+| Asset                 | Files used                                |
+| --------------------- | ----------------------------------------- |
+| Buggy body and wheels | `Car.png`, `RedCar.png`, `Wheel*.png`     |
+| Driver                | `Body.png`, `Body2.png`, `Head2.png`      |
+| Fuel can, coins       | `Fuel.png`, `Coin5/10/25/50.png`          |
+| Low-fuel warning icon | `Alarm.png`                               |
+| Terrain - dirt fill   | `DirtBG.png`                              |
+| Terrain - grass edge  | `Grass.png`                               |
+| Backdrop              | `SceneBG.png`, `Clouds.png`               |
+| Sound effects         | `EngineSound.ogg`, `Coin.wav`, `Fuel.wav` |
+
+## Other assets
+
+Assets not covered by the pack above are used only if their source page
+states **CC0 1.0** explicitly - on itch.io, that is the **Asset licence**
+field in the page's info table.
+
+| Asset                                    | Author / Source | Licence |
+| ---------------------------------------- | --------------- | ------- |
+| Finish gate                              |                 | CC0 1.0 |
+| Parallax layers (far / near)             |                 | CC0 1.0 |
+| Dust and debris particles                |                 | CC0 1.0 |
+| SFX - landing, crash, engine-die, finish |                 | CC0 1.0 |
+| Music loop                               |                 | CC0 1.0 |
 
 ## Rejected sources
 
