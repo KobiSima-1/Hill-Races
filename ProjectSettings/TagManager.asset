@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
+  serializedVersion: 3
   tags: []
   layers:
   - Default
@@ -11,8 +11,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Ground
+  - Vehicle
   - 
   - 
   - 
@@ -41,3 +41,32 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Sky
+    uniqueID: 2646212041
+    locked: 0
+  - name: ParallaxFar
+    uniqueID: 3356836107
+    locked: 0
+  - name: ParallaxNear
+    uniqueID: 2614411549
+    locked: 0
+  - name: TerrainFill
+    uniqueID: 2885902031
+    locked: 0
+  - name: TerrainEdge
+    uniqueID: 3367234017
+    locked: 0
+  - name: Pickups
+    uniqueID: 282815251
+    locked: 0
+  - name: Vehicle
+    uniqueID: 3639358759
+    locked: 0
+  - name: VFX
+    uniqueID: 1856608659
+    locked: 0
+  - name: UI
+    uniqueID: 2786129383
+    locked: 0
+  m_RenderingLayers:
+  - Default
