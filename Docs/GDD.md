@@ -5,15 +5,13 @@ _Hill Races_
 |                                        |                                                                          |
 | -------------------------------------- | ------------------------------------------------------------------------ |
 | **Working title**                      | Hill Races                                                               |
-| **Team**                               | Kobi Sima (solo -                                                        |
-| design, programming, integration)      |
+| **Team**                               | Kobi Sima (solo - design, programming, integration)                      |
 | **Genre**                              | Arcade / physics-driven side-scrolling hill climber / time-attack course |
 | **Target platform**                    | PC (Windows) standalone + WebGL                                          |
 | **Engine / Unity version**             | Unity 6 (6000.3.20f1), URP, 2D                                           |
 | **Orientation & reference resolution** | Landscape, 640 × 360 reference (16:9)                                    |
 | **Expected session length**            | 30 seconds - 4 minutes                                                   |
-| **Document version**                   | v0.1 -                                                                   |
-| 2026-09-15                             |
+| **Document version**                   | v0.2 - 2026-09-25                                                        |
 
 ---
 
@@ -103,29 +101,24 @@ the things that are true every frame:
 
 ### Parameters you will need to tune
 
-| Parameter                                                               | What it controls                                                                                                                                                     | First guess           |
-| ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| `bodyMass` / `wheelMass`                                                | The buggy's inertia -                                                                                                                                                |
-| the ratio decides whether it feels like a vehicle or a shopping trolley | 120 / 15                                                                                                                                                             |
-| `centerOfMassOffset`                                                    | **The single most important number in the project.** How easily the buggy wheelies and flips. Low and forward = stable and dull. high and back = flips on every bump | (0, −0.30)            |
-| `maxMotorSpeed`                                                         | Wheel angular speed cap in °/s -                                                                                                                                     |
-| with a 0.35 u wheel, 1600 °/s ≈ 10 u/s ground speed                     | 1600 °/s                                                                                                                                                             |
-| `motorTorque`                                                           | Whether the buggy can climb a steep face or just spins its wheels                                                                                                    | 800                   |
-| `motorRampRate`                                                         | How committed throttle feels off the line                                                                                                                            | 2500 °/s²             |
-| `reverseFraction`                                                       | How much of full power reverse gets -                                                                                                                                |
-| low enough that backing up is a correction, not a strategy              | 0.5                                                                                                                                                                  |
-| `airTorque`                                                             | Rotation speed in air -                                                                                                                                              |
-| trades against air time. Too high and every jump becomes a flip         | 220                                                                                                                                                                  |
-| `suspensionFrequency` / `dampingRatio`                                  | Ride softness. Soft absorbs bumps but bottoms out. stiff turns every rock into a flip                                                                                | 4.0 Hz / 0.7          |
-| `fuelCapacity` / `fuelDrainIdle` / `fuelDrainThrottle`                  | The run clock. Tuned per course so a cautious line runs dry before the finish                                                                                        | 100 / 2.0 /s / 2.0 /s |
-| `fuelPerCan`                                                            | How much one risky detour is worth -                                                                                                                                 |
-| the main fairness dial on pillar 1                                      | 35                                                                                                                                                                   |
-| `cleanLandingAngle`                                                     | How forgiving a landing is. The difference between a fair game and a cruel one                                                                                       | 40°                   |
-| `landingWindow`                                                         | How close in time both wheels must touch to count as level                                                                                                           | 0.12 s                |
-| `rotationPoints` / `airTimePoints`                                      | Whether flips are worth attempting at all, against the fuel they cost                                                                                                | 250 / 40 per s        |
-| `goldTime` / `silverTime` / `bronzeTime`                                | Medal thresholds, set per course after the course is playable -                                                                                                      |
-| never guessed in advance                                                | -                                                                                                                                                                    |
-|                                                                         |
+| Parameter                                              | What it controls                                                                                                                                                     | Value                                  |
+| ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| `bodyMass` / `wheelMass`                               | The buggy's inertia - the ratio decides whether it feels like a vehicle or a shopping trolley                                                                        | 120 / 15                               |
+| `centerOfMassOffset`                                   | **The single most important number in the project.** How easily the buggy wheelies and flips. Low and forward = stable and dull. high and back = flips on every bump | (0, −0.30)                             |
+| `maxMotorSpeed`                                        | Wheel angular speed cap in °/s - with a 0.35 u wheel, 1600 °/s ≈ 10 u/s ground speed                                                                                 | 1600 °/s                               |
+| `motorTorque`                                          | Whether the buggy can climb a steep face or just spins its wheels                                                                                                    | 800                                    |
+| `motorRampRate`                                        | How committed throttle feels off the line                                                                                                                            | 2500 °/s²                              |
+| `reverseFraction`                                      | How much of full power reverse gets - low enough that backing up is a correction, not a strategy                                                                     | 0.5                                    |
+| `airTorque`                                            | Rotation speed in air - trades against air time. Too high and every jump becomes a flip                                                                              | 220                                    |
+| `suspensionFrequency` / `dampingRatio`                 | Ride softness. Soft absorbs bumps and gives a visible bounce on landing but lets the wheels ride up into the body. stiff turns every rock into a flip                | **3.4 Hz / 0.5** (tuned; was 4.0 / 0.7) |
+| `fuelCapacity` / `fuelDrainIdle` / `fuelDrainThrottle` | The run clock. Tuned per course so a cautious line runs dry before the finish                                                                                        | 100 / 2.0 /s / 2.0 /s                  |
+| `fuelPerCan`                                           | How much one risky detour is worth - the main fairness dial on pillar 1                                                                                              | 35                                     |
+| `cleanLandingAngle`                                    | How forgiving a landing is. The difference between a fair game and a cruel one                                                                                       | 40°                                    |
+| `landingWindow`                                        | How close in time both wheels must touch to count as level                                                                                                           | 0.12 s                                 |
+| `rotationPoints` / `airTimePoints`                     | Whether flips are worth attempting at all, against the fuel they cost                                                                                                | 250 / 40 per s                         |
+| `goldTime` / `silverTime` / `bronzeTime`               | Medal thresholds, set per course after the course is playable - never guessed in advance                                                                             | -                                      |
+
+Values in bold have been tuned in play. the rest are still first guesses.
 
 **Where these live:** three ScriptableObject assets, split along the axes that vary independently -
 `VehicleConfig` (mass, centre of mass, motor and air torque), `CourseConfig` (one course's fuel capacity and medal times), and `ScoringConfig` (landing angle window, rotation and air-time point values). No gameplay number is a literal in a script, and no tuning pass requires a recompile.
@@ -190,48 +183,32 @@ pillar 2 depends on one button meaning two things, so a third gameplay input wou
 
 ## 6. Art & Audio
 
-| Asset       | Variants / frames                             | Source (candidate) | Use |
-| ----------- | --------------------------------------------- | ------------------ | --- |
-| Buggy body  | 1 side-view chassis                           | TBD -              |
-| CC0 1.0     | `Rigidbody2D` body, recoloured                |
-| Wheels      | 2 identical                                   | TBD -              |
-| CC0 1.0     | Separate transforms, rotated by physics       |
-| Driver      | 1 seated figure with a distinct head          | TBD -              |
-| CC0 1.0     | Visual. the head carries the failure collider |
-| Fuel can    | 1                                             | TBD -              |
-| CC0 1.0     | Pickup, pooled                                |
-| Coin        | 1, 6-frame spin                               | TBD -              |
-| CC0 1.0     | Pickup, pooled                                |
-| Finish gate | 1                                             | TBD -              |
-| CC0 1.0     | Marks the finish trigger                      |
+"LucyLavend pack" below is the _Physics Car Game Asset Pack_ by LucyLavend.
 
-| Terrain -
-dirt fill | 1 tiling texture | TBD -
-CC0 1.0 | Body of the course mesh |
-| Terrain -
-grass edge | 1 tiling strip | TBD -
-CC0 1.0 | Top edge of the course mesh |
-| Parallax layers | 3 (far ridge, near hills, sky gradient) | TBD -
-CC0 1.0 | Backdrop |
-| Dust / debris particles | 2 systems | TBD -
-CC0 1.0 | Wheel dust, crash burst |
-| SFX | engine loop, coin, fuel pickup, landing, crash, engine-die, finish | TBD -
-CC0 1.0 | -
-|
-| Music | 1 looping track | TBD -
-CC0 1.0 | Menu and gameplay |
+| Asset                   | Variants / frames                                                     | Source                                              | Use                                                                    |
+| ----------------------- | --------------------------------------------------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------- |
+| Buggy body              | 1 side-view chassis, 2 colours (`RedCar` in use)                      | LucyLavend pack                                     | `Rigidbody2D` body                                                     |
+| Wheels                  | 2 identical (`Wheel`)                                                 | LucyLavend pack                                     | Separate transforms, rotated by physics, drawn behind the body         |
+| Driver                  | 1 seated figure with a distinct head (`Body2` + `Head2`)              | LucyLavend pack                                     | Visual. the head carries the failure collider                          |
+| Fuel can                | 1                                                                     | LucyLavend pack                                     | Pickup, pooled                                                         |
+| Coin                    | 4 values (5 / 10 / 25 / 50), static                                   | LucyLavend pack                                     | Pickup, pooled                                                         |
+| Low-fuel icon           | 1 (`Alarm`)                                                           | LucyLavend pack                                     | HUD low-fuel pulse                                                     |
+| Finish gate             | 1                                                                     | TBD - CC0 1.0                                       | Marks the finish trigger                                               |
+| Terrain - dirt fill     | 1 tiling texture (`DirtBG`)                                           | LucyLavend pack                                     | Body of the course mesh                                                |
+| Terrain - grass edge    | 1 tiling strip (`Grass`)                                              | LucyLavend pack                                     | Top edge of the course mesh                                            |
+| Parallax layers         | 3 (sky + clouds from the pack, far ridge, near hills)                 | LucyLavend pack (`SceneBG`, `Clouds`) + TBD - CC0 1.0 | Backdrop                                                             |
+| Dust / debris particles | 2 systems                                                             | TBD - CC0 1.0                                       | Wheel dust, crash burst                                                |
+| SFX                     | engine loop, coin, fuel pickup / landing, crash, engine-die, finish   | LucyLavend pack / TBD - CC0 1.0                     | -                                                                      |
+| Music                   | 1 looping track                                                       | TBD - CC0 1.0                                       | Menu and gameplay                                                      |
 
-> Specific packs are chosen during production from Kenney, OpenGameArt, or itch.io, **provided each is CC0 1.0**, and are recorded in `Docs/CREDITS.md` as they are picked. The licence is the commitment here. the specific pack is not.
+> Assets not covered by the LucyLavend pack are chosen during production from Kenney, OpenGameArt, or itch.io, **provided each is CC0 1.0**, and are recorded in `Docs/CREDITS.md` as they are picked.
 
-**Licence note:** every asset in the build is **CC0 1.0 Universal** -
-a full waiver of rights permitting use, modification, and redistribution, including inside a public GitHub repository, with no attribution legally required. This is a hard constraint on selection, not a description of what happened to be chosen: an asset is only used if its source page states CC0 explicitly. Attribution is given regardless in `Docs/CREDITS.md`. On itch.io specifically, the check is the **Asset licence** field in the page's info table -
-a pack that is free to download but states no licence at all is treated as all rights reserved and is not used. Asset packs advertised as containing the original _Hill Climb Racing_ game files were specifically rejected: a third-party re-upload of a commercial game's assets carries no licence the uploader had standing to grant, and this repository is public.
+**Licence note:** the vehicle, driver, pickup and terrain sprites, plus the engine, coin and fuel SFX, come from LucyLavend's _Physics Car Game Asset Pack_ (free for personal and commercial use. resale and redistribution of the assets on their own are not permitted), used in this course project with the lecturer's approval. `Head.png` from that pack is the Godot engine logo and is deliberately not used. Every other asset in the build must be **CC0 1.0 Universal**: an asset is only used if its source page states CC0 explicitly - on itch.io, the check is the **Asset licence** field in the page's info table. a pack that is free to download but states no licence at all is treated as all rights reserved and is not used. Every source is listed in `Docs/CREDITS.md`. Asset packs advertised as containing the original _Hill Climb Racing_ game files were specifically rejected: a third-party re-upload of a commercial game's assets carries no licence the uploader had standing to grant, and this repository is public.
 
 **Terrain rendering:** the course is authored as `EdgeCollider2D` points directly in the scene, using Unity's built-in collider point editor. At load, `CourseMeshBuilder` reads those points and interpolates them into a smooth curve. The mesh is built in two pieces from the same point list: a **grass strip** of fixed thickness following the curve, and a **dirt fill** skirted from just below it down to a fixed floor y. Both take UVs derived from world x so the textures tile continuously with no visible seams, and the strip is drawn on a sorting order above the fill. Both source textures must tile horizontally and be imported with `Wrap Mode: Repeat`. The collider is the source of truth for both physics and visuals -
 there is no second copy of the course to keep in sync.
 
-**Technical art rules:** bilinear filtering, PPU 100, a single Sprite Atlas (**V1 -
-V2 has known particle-system issues in Unity 6**), particle material `Legacy Shaders/Particles/Alpha Blended`. Sorting layers back→front: `Sky` → `ParallaxFar` → `ParallaxNear` → `TerrainFill` → `TerrainEdge` → `Pickups` → `Vehicle` → `VFX` → `UI`.
+**Technical art rules:** bilinear filtering, no compression, PPU set per sprite so that the wheel radius is 0.35 u and the wheels sit in the body's wheel arches (`RedCar` 160, `Wheel` 183, `Body2` 160, `Head2` 400), a single Sprite Atlas (**V1 - V2 has known particle-system issues in Unity 6**), particle material `Legacy Shaders/Particles/Alpha Blended`. Sorting layers back→front: `Sky` → `ParallaxFar` → `ParallaxNear` → `TerrainFill` → `TerrainEdge` → `Pickups` → `Vehicle` → `VFX` → `UI`. Inside `Vehicle`, the order is driver (−2) → wheels (−1) → body (0), so that on a hard landing the wheels ride up _behind_ the body into the arches instead of being drawn over it.
 
 **Engine audio:** one looping `AudioSource` whose `pitch` is driven from wheel angular velocity, clamped to a sane range. This is the cheapest single thing that makes a physics vehicle feel alive, and it is about six lines of code.
 
@@ -369,3 +346,4 @@ we are **not** building these
 | Version | Date       | Change                                          |
 | ------- | ---------- | ----------------------------------------------- |
 | v0.1    | 2026-09-15 | Initial draft (Hill Climb Racing-based concept) |
+| v0.2    | 2026-09-25 | Asset pack chosen (LucyLavend), licence note and art table updated, PPU rule and in-vehicle draw order set, suspension tuned to 3.4 Hz / 0.5, broken tables repaired |
