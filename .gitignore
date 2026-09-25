@@ -41,3 +41,4 @@ crashlytics-build.properties
 sysinfo.txt
 .DS_Store
 Thumbs.db
+*.slnx
