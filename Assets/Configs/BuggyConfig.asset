@@ -15,8 +15,8 @@ MonoBehaviour:
   <BodyMass>k__BackingField: 120
   <WheelMass>k__BackingField: 15
   <CenterOfMassOffset>k__BackingField: {x: 0, y: -0.3}
-  <SuspensionFrequency>k__BackingField: 2.5
-  <SuspensionDampingRatio>k__BackingField: 0.35
+  <SuspensionFrequency>k__BackingField: 3.4
+  <SuspensionDampingRatio>k__BackingField: 0.5
   <MaxMotorSpeed>k__BackingField: 1600
   <MotorTorque>k__BackingField: 800
   <MotorRampRate>k__BackingField: 2500
