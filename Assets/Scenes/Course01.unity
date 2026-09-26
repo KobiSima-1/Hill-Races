@@ -388,6 +388,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1782392787}
   - component: {fileID: 1782392786}
+  - component: {fileID: 1782392788}
   m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
@@ -464,6 +465,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1782392788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782392785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe7c2506920e42441a57edbaba1fa3f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CourseMeshBuilder
+  _samplesPerSegment: 8
+  _applySmoothedCurveToCollider: 1
+  _grassMaterial: {fileID: 2100000, guid: c074212c1d99b0e409c97edaef5c7edc, type: 2}
+  _grassThickness: 1.4
+  _grassTileLength: 1
+  _dirtMaterial: {fileID: 2100000, guid: 85292e2d90ea477468fa06714284e880, type: 2}
+  _floorY: -20
+  _dirtTileSize: 1.7
 --- !u!1001 &2521958382832208349
 PrefabInstance:
   m_ObjectHideFlags: 0
