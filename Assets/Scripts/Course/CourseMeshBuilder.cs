@@ -1,7 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//
+/// <summary>
+/// Turns the hand authored EdgeCollider2D points into the course visuals:
+/// a grass strip of fixed thickness along the surface, and a dirt fill down to a floor.
+/// The authored points are smoothed into a curve once on Awake, and the same curve is
+/// written back into the collider, so what the wheels touch is exactly what is drawn.
+/// </summary>
 [RequireComponent(typeof(EdgeCollider2D))]
 public class CourseMeshBuilder : MonoBehaviour
 {
@@ -122,7 +127,7 @@ public class CourseMeshBuilder : MonoBehaviour
             Vector2 previous = curve[Mathf.Max(i - 1, 0)];
             Vector2 next = curve[Mathf.Min(i + 1, curve.Count - 1)];
             Vector2 tangent = (next - previous).normalized;
-            // Rotate the tangent 90° counter-clockwise: for a left-to-right course this points up.
+            // Rotate the tangent 90° counter clockwise: for a left-to-right course this points up.
             normals.Add(new Vector2(-tangent.y, tangent.x));
         }
         return normals;
