@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-/// <summary>The states of one run.</summary>
+/// <summary>The states of one run (GDD §3 state diagram).</summary>
 public enum RunState
 {
     Playing,
@@ -13,7 +13,7 @@ public enum RunState
 }
 
 /// <summary>
-/// Owns the run: its state, the course timer, and the coin and style totals.
+/// Owns the run: its state, the course timer, and the coin and style totals (GDD §7).
 /// One per course scene; a retry reloads the scene and with it a fresh GameManager.
 /// </summary>
 public class GameManager : MonoBehaviour
@@ -26,10 +26,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private FuelSystem _fuel;
 
     [Header("Coast-out")]
+    [Tooltip("Rolling resistance added once the engine cuts, so the buggy slows to a stop instead of rocking forever.")]
+    [SerializeField, Min(0f)] private float _coastDrag = 1f;
     [Tooltip("Below this speed (units per second) the vehicle counts as stopped.")]
-    [SerializeField, Min(0f)] private float _restSpeed = 0.2f;
+    [SerializeField, Min(0f)] private float _restSpeed = 0.3f;
     [Tooltip("How long the vehicle must stay stopped before the run ends.")]
     [SerializeField, Min(0f)] private float _restDuration = 1f;
+    [Tooltip("Safety net: the run ends after this long even if the vehicle is still moving.")]
+    [SerializeField, Min(0f)] private float _maxCoastDuration = 8f;
 
     public RunState State { get; private set; } = RunState.Playing;
     public float ElapsedTime { get; private set; }
@@ -79,7 +83,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleFinishCrossed()
     {
-        // Only a run still in progress can finish a wreck sliding over the line does not count.
+        // Only a run still in progress can finish - a wreck sliding over the line does not count.
         if (State != RunState.Playing)
         {
             return;
@@ -101,17 +105,19 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Engine off, input off, and the buggy rolls on its momentum until it comes to rest.
+    /// Engine off, input off, and the buggy rolls on its momentum until it comes to rest (GDD §3).
     /// It exists so the player watches the consequence of a fuel decision made earlier.
     /// </summary>
     private IEnumerator CoastOutRoutine()
     {
         _vehicle.InputEnabled = false;
+        _vehicle.ApplyCoastDrag(_coastDrag);
         SetState(RunState.CoastingOut);
-        Debug.Log("Out of fuel - coasting");
+        Debug.Log($"Out of fuel after {ElapsedTime:F1} s at x = {_vehicle.transform.position.x:F0} - coasting");
 
         float stoppedFor = 0f;
-        while (stoppedFor < _restDuration)
+        float coastingFor = 0f;
+        while (stoppedFor < _restDuration && coastingFor < _maxCoastDuration)
         {
             // Something else (a crash, later on) may end the run while we coast.
             if (State != RunState.CoastingOut)
@@ -119,6 +125,7 @@ public class GameManager : MonoBehaviour
                 yield break;
             }
 
+            coastingFor += Time.deltaTime;
             stoppedFor = _vehicle.Speed < _restSpeed ? stoppedFor + Time.deltaTime : 0f;
             yield return null;
         }

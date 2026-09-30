@@ -172,4 +172,15 @@ public class VehicleController : MonoBehaviour
         motor.maxMotorTorque = _config.MotorTorque;
         joint.motor = motor;
     }
+
+    /// <summary>
+    /// Adds rolling resistance once the engine cuts,
+    /// so a coasting buggy slows to a stop instead of rocking forever.
+    /// </summary>
+    public void ApplyCoastDrag(float drag)
+    {
+        _body.linearDamping = drag;
+        _rearWheelJoint.connectedBody.angularDamping = drag;
+        _frontWheelJoint.connectedBody.angularDamping = drag;
+    }
 }
