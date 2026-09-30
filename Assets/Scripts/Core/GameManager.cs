@@ -37,9 +37,16 @@ public class GameManager : MonoBehaviour
 
     public RunState State { get; private set; } = RunState.Playing;
     public float ElapsedTime { get; private set; }
+    public int Coins { get; private set; }
+
+    /// <summary>True while the run can still end in a finish: driving, or coasting on the last of the momentum.</summary>
+    public bool IsRunInProgress => State == RunState.Playing || State == RunState.CoastingOut;
 
     /// <summary>Raised whenever the run changes state. UI and audio listen to this.</summary>
     public event Action<RunState> StateChanged;
+
+    /// <summary>Raised with the new coin total whenever a coin is collected. The HUD listens.</summary>
+    public event Action<int> CoinsChanged;
 
     private void Awake()
     {
@@ -75,23 +82,44 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (State == RunState.Playing)
+        // The clock keeps running while coasting: a run that rolls over the line still has a time.
+        if (IsRunInProgress)
         {
             ElapsedTime += Time.deltaTime;
         }
     }
 
+    /// <summary>Adds a coin's value to the run's score. Returns false once the run is over.</summary>
+    public bool TryCollectCoin(int value)
+    {
+        if (!IsRunInProgress)
+        {
+            return false;
+        }
+
+        Coins += value;
+        CoinsChanged?.Invoke(Coins);
+        return true;
+    }
+
+    /// <summary>Refuels by one can. Returns false if the can was not used (the tank already ran dry).</summary>
+    public bool TryCollectFuelCan()
+    {
+        return _fuel.TryAddCan();
+    }
+
     private void HandleFinishCrossed()
     {
-        // Only a run still in progress can finish - a wreck sliding over the line does not count.
-        if (State != RunState.Playing)
+        // A buggy that runs dry and rolls over the line on momentum still finishes.
+        // A wreck sliding over the line after a crash does not.
+        if (!IsRunInProgress)
         {
             return;
         }
 
         _vehicle.InputEnabled = false;
         SetState(RunState.Finished);
-        Debug.Log($"Finished in {ElapsedTime:F2} s");
+        Debug.Log($"Finished in {ElapsedTime:F2} s with {Coins} coins");
     }
 
     private void HandleFuelEmptied()

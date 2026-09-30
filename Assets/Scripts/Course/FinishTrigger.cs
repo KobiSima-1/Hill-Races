@@ -22,7 +22,7 @@ public class FinishTrigger : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // The body and both wheels each have a collider, so this can fire three times.
-        if (_crossed || !IsVehicle(other))
+        if (_crossed || !VehicleColliders.Contains(other))
         {
             return;
         }
@@ -30,12 +30,5 @@ public class FinishTrigger : MonoBehaviour
         _crossed = true;
         Debug.Log("Finish line crossed");
         Crossed?.Invoke();
-    }
-
-    private static bool IsVehicle(Collider2D other)
-    {
-        // A wheel's own Rigidbody is a child of the buggy, so search upward from it.
-        Rigidbody2D body = other.attachedRigidbody;
-        return body != null && body.GetComponentInParent<VehicleController>() != null;
     }
 }

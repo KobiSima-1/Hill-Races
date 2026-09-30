@@ -2,8 +2,8 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// Drains and refills the vehicle's fuel, and raises the event that starts the coast-out.
-/// Fuel is only ever granted by a can.
+/// Drains and refills the vehicle's fuel, and raises the event that starts the coast-out (GDD §3).
+/// Fuel is only ever granted by a can - there is no regeneration and no reserve.
 /// </summary>
 public class FuelSystem : MonoBehaviour
 {
@@ -49,15 +49,19 @@ public class FuelSystem : MonoBehaviour
         }
     }
 
-    /// <summary>Adds one can's worth of fuel. Ignored once the tank has run dry: the coast-out is final.</summary>
-    public void AddCan()
+    /// <summary>
+    /// Adds one can's worth of fuel and returns true.
+    /// Returns false once the tank has run dry: the coast-out is final.
+    /// </summary>
+    public bool TryAddCan()
     {
         if (IsEmpty || GameManager.Instance.State != RunState.Playing)
         {
-            return;
+            return false;
         }
 
         SetFuel(_currentFuel + _courseConfig.FuelPerCan);
+        return true;
     }
 
     private void SetFuel(float amount)
