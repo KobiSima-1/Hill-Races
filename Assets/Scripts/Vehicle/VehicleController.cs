@@ -31,6 +31,8 @@ public class VehicleController : MonoBehaviour
 
     public bool IsGrounded { get; private set; }
     public bool InputEnabled { get; set; } = true;
+    public bool ThrottleHeld => _throttleHeld;
+    public float Speed => _body.linearVelocity.magnitude;
 
     private void Awake()
     {
