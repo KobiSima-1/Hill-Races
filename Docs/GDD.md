@@ -11,7 +11,7 @@ _Hill Races_
 | **Engine / Unity version**             | Unity 6 (6000.3.20f1), URP, 2D                                           |
 | **Orientation & reference resolution** | Landscape, 640 × 360 reference (16:9)                                    |
 | **Expected session length**            | 30 seconds - 4 minutes                                                   |
-| **Document version**                   | v0.2 - 2026-09-25                                                        |
+| **Document version**                   | v0.3 - 2026-09-30                                                        |
 
 ---
 
@@ -62,6 +62,7 @@ stateDiagram-v2
     Playing --> CoastingOut: fuel empty
     CoastingOut --> Crashed: head hits ground
     CoastingOut --> GameOver: comes to rest
+    CoastingOut --> Finished: rolls over the line
 
     Playing --> Finished: finish line
     Crashed --> GameOver: 1.5 s sequence
@@ -83,7 +84,7 @@ the things that are true every frame:
 - **Airborne:** the same two inputs instead apply `AddTorque` to the body at `airTorque` -
   throttle rotates the nose up, brake rotates it down. Wheel motors are disabled in air so the buggy does not land with its wheels spinning at full speed.
 - **Fuel** drains at `fuelDrainIdle` always, plus `fuelDrainThrottle` while the throttle is held, so driving flat out costs roughly double. A can restores `fuelPerCan`, capped at `fuelCapacity` -
-  overfilling is wasted, so reaching a can early is a real loss. Fuel is never granted by anything other than a can.
+  overfilling is wasted, so reaching a can early is a real loss. Fuel is never granted by anything other than a can, and a can reached after the tank has run dry is ignored: the coast-out is final.
 - **Rotation tracking:** while airborne the game accumulates signed body rotation. A **full rotation** is 360° of accumulated rotation in a single airborne period, in either direction. Partial rotation pays nothing.
 - **Landing resolution** -
   evaluated on the first frame the buggy regains ground contact, in this order:
@@ -94,8 +95,8 @@ the things that are true every frame:
   the rotation count and the landing angle are independent tests.
 - **Coins** are collected on trigger contact and are the score. They are placed on lines that compete with the fuel line, so taking coins is a decision, not a pickup.
 - **Failure -
-  two ways.** (a) The `DriverHead` collider touches the `Ground` layer: immediate crash. (b) Fuel reaches 0: the engine cuts, input is disabled, and the buggy coasts on momentum until it comes to rest or lands on its head. The coast-out exists so the player watches the consequence of a fuel decision made twenty seconds earlier.
-- **Winning:** crossing the finish trigger ends the course. The results screen shows finish time, the medal earned against `goldTime` / `silverTime` / `bronzeTime`, coins collected, and style points.
+  two ways.** (a) The `DriverHead` collider touches the `Ground` layer: immediate crash. (b) Fuel reaches 0: the engine cuts, input is disabled, and the buggy coasts on momentum until it comes to rest or lands on its head. The coast-out exists so the player watches the consequence of a fuel decision made twenty seconds earlier. With the motors off the wheels spin freely, so the coast-out adds `coastDrag` rolling resistance to the body and wheels - without it the buggy rocks in a valley indefinitely. The buggy counts as stopped below `restSpeed` for `restDuration`. as a safety net the run ends after `maxCoastDuration` regardless.
+- **Winning:** crossing the finish trigger ends the course - including a buggy that has run dry and rolls over the line on its momentum, and the clock keeps running while it coasts, so a coasted finish is never faster than a driven one. A wreck sliding over the line after a crash does not finish. The results screen shows finish time, the medal earned against `goldTime` / `silverTime` / `bronzeTime`, coins collected, and style points.
 - After a crash: a 1.5 s sequence (Cinemachine impulse shake, dust burst, engine-die sound), then the game-over screen. **Coins and style points from a failed run are discarded** -
   only a finished run records anything.
 
@@ -105,17 +106,18 @@ the things that are true every frame:
 | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
 | `bodyMass` / `wheelMass`                               | The buggy's inertia - the ratio decides whether it feels like a vehicle or a shopping trolley                                                                        | 120 / 15                               |
 | `centerOfMassOffset`                                   | **The single most important number in the project.** How easily the buggy wheelies and flips. Low and forward = stable and dull. high and back = flips on every bump | (0, −0.30)                             |
-| `maxMotorSpeed`                                        | Wheel angular speed cap in °/s - with a 0.35 u wheel, 1600 °/s ≈ 10 u/s ground speed                                                                                 | 1600 °/s                               |
-| `motorTorque`                                          | Whether the buggy can climb a steep face or just spins its wheels                                                                                                    | 800                                    |
+| `maxMotorSpeed`                                        | Wheel angular speed cap in °/s - with a 0.35 u wheel, 1700 °/s ≈ 10.4 u/s ground speed                                                                               | **1700 °/s** (tuned. was 1600)         |
+| `motorTorque`                                          | Whether the buggy can climb a steep face or just spins its wheels                                                                                                    | **700** (tuned. was 800)               |
 | `motorRampRate`                                        | How committed throttle feels off the line                                                                                                                            | 2500 °/s²                              |
 | `reverseFraction`                                      | How much of full power reverse gets - low enough that backing up is a correction, not a strategy                                                                     | 0.5                                    |
-| `airTorque`                                            | Rotation speed in air - trades against air time. Too high and every jump becomes a flip                                                                              | 220                                    |
+| `airTorque`                                            | Rotation speed in air - trades against air time. Too high and every jump becomes a flip                                                                              | **600** (tuned. was 220, which took ~3.5 s per flip) |
 | `suspensionFrequency` / `dampingRatio`                 | Ride softness. Soft absorbs bumps and gives a visible bounce on landing but lets the wheels ride up into the body. stiff turns every rock into a flip                | **3.4 Hz / 0.5** (tuned; was 4.0 / 0.7) |
-| `fuelCapacity` / `fuelDrainIdle` / `fuelDrainThrottle` | The run clock. Tuned per course so a cautious line runs dry before the finish                                                                                        | 100 / 2.0 /s / 2.0 /s                  |
+| `fuelCapacity` / `fuelDrainIdle` / `fuelDrainThrottle` | The run clock. Tuned per course so a cautious line runs dry before the finish                                                                                        | **100 / 1.5 /s / 1.5 /s** (first pass. was 2.0 / 2.0) |
 | `fuelPerCan`                                           | How much one risky detour is worth - the main fairness dial on pillar 1                                                                                              | 35                                     |
 | `cleanLandingAngle`                                    | How forgiving a landing is. The difference between a fair game and a cruel one                                                                                       | 40°                                    |
 | `landingWindow`                                        | How close in time both wheels must touch to count as level                                                                                                           | 0.12 s                                 |
 | `rotationPoints` / `airTimePoints`                     | Whether flips are worth attempting at all, against the fuel they cost                                                                                                | 250 / 40 per s                         |
+| `coastDrag` / `restSpeed` / `restDuration` / `maxCoastDuration` | How quickly the coast-out ends once the engine cuts                                                                                                   | 1 / 0.3 u/s / 1 s / 8 s                |
 | `goldTime` / `silverTime` / `bronzeTime`               | Medal thresholds, set per course after the course is playable - never guessed in advance                                                                             | -                                      |
 
 Values in bold have been tuned in play. the rest are still first guesses.
@@ -190,8 +192,8 @@ pillar 2 depends on one button meaning two things, so a third gameplay input wou
 | Buggy body              | 1 side-view chassis, 2 colours (`RedCar` in use)                      | LucyLavend pack                                     | `Rigidbody2D` body                                                     |
 | Wheels                  | 2 identical (`Wheel`)                                                 | LucyLavend pack                                     | Separate transforms, rotated by physics, drawn behind the body         |
 | Driver                  | 1 seated figure with a distinct head (`Body2` + `Head2`)              | LucyLavend pack                                     | Visual. the head carries the failure collider                          |
-| Fuel can                | 1                                                                     | LucyLavend pack                                     | Pickup, pooled                                                         |
-| Coin                    | 4 values (5 / 10 / 25 / 50), static                                   | LucyLavend pack                                     | Pickup, pooled                                                         |
+| Fuel can                | 1                                                                     | LucyLavend pack                                     | Pickup, placed by hand                                                 |
+| Coin                    | 4 values (5 / 10 / 25 / 50), static                                   | LucyLavend pack                                     | Pickup, placed by hand                                                 |
 | Low-fuel icon           | 1 (`Alarm`)                                                           | LucyLavend pack                                     | HUD low-fuel pulse                                                     |
 | Finish gate             | 1                                                                     | TBD - CC0 1.0                                       | Marks the finish trigger                                               |
 | Terrain - dirt fill     | 1 tiling texture (`DirtBG`)                                           | LucyLavend pack                                     | Body of the course mesh                                                |
@@ -230,7 +232,7 @@ the workflow, not a system.** There is no terrain generator and no runtime terra
 
 ```mermaid
 graph TD
-    GM[GameManager<br/>singleton: run state, timer, coins, style] --> V[VehicleController<br/>motors, air torque, grounded]
+    GM[GameManager<br/>per-scene singleton: run state, timer, coins, style] --> V[VehicleController<br/>motors, air torque, grounded]
     GM --> F[FuelSystem<br/>drain, refuel, empty event]
     GM --> LR[LandingResolver<br/>rotation tracking, three-way landing verdict]
     GM --> UI[UIManager<br/>HUD, popups, screens]
@@ -239,7 +241,7 @@ graph TD
     POOL[PoolService<br/>generic ObjectPool wrapper] -.-> VFX[Dust and debris bursts]
     POOL -.-> UI
     VC[VehicleConfig<br/>ScriptableObject: mass, motor, air torque] -.-> V
-    CC[CourseConfig<br/>ScriptableObject: fuel, medal times per vehicle] -.-> F
+    CC[CourseConfig<br/>ScriptableObject: fuel, medal times] -.-> F
     CC -.-> GM
     SC[ScoringConfig<br/>ScriptableObject: landing and style rules] -.-> LR
     SAVE[SaveService<br/>PlayerPrefs] -.-> GM
@@ -247,35 +249,35 @@ graph TD
 
 | Script              | Responsibility                                                                            |
 | ------------------- | ----------------------------------------------------------------------------------------- |
-| `GameManager`       | Owns the run state machine, the course timer, and the authoritative coin and style totals |
+| `GameManager`       | Owns the run state machine, the course timer, the coast-out coroutine, and the authoritative coin and style totals |
 | `VehicleController` | Applies the two inputs as motor drive on the ground and body torque in the air            |
 | `FuelSystem`        | Drains and refills fuel. raises the empty event that starts the coast-out                 |
 | `LandingResolver`   | Tracks airborne rotation and returns the three-way landing verdict from section 3         |
 | `CrashDetector`     | Watches the driver-head collider and raises the crash event                               |
 | `CourseMeshBuilder` | Turns the authored collider points into the grass strip and dirt fill meshes              |
-| `Pickup`            | One pooled coin or fuel can. reports collection and returns itself                        |
-| `FinishTrigger`     | Detects the vehicle crossing the line and ends the course                                 |
+| `Pickup`            | One hand-placed coin or fuel can. reports collection and deactivates itself               |
+| `FinishTrigger`     | Detects the vehicle crossing the line once and raises an event. the GameManager decides what it means |
 | `ParallaxLayer`     | Scrolls one background layer at its own fraction of camera movement                       |
 | `UIManager`         | Binds HUD widgets to `GameManager` events. owns the popup coroutines                      |
 | `AudioManager`      | Singleton SFX and music playback, and engine pitch mapping                                |
 | `PoolService`       | Generic wrapper over `UnityEngine.Pool.ObjectPool<T>` using create/get/release callbacks  |
 | `SaveService`       | Reads and writes best time, best medal, and best coin count per course and vehicle        |
 | `VehicleConfig`     | ScriptableObject: one vehicle's mass, centre of mass, motor and air-torque values         |
-| `CourseConfig`      | ScriptableObject: one course's fuel capacity and its medal times, per vehicle             |
+| `CourseConfig`      | ScriptableObject: one course's fuel budget and its medal times                            |
 | `ScoringConfig`     | ScriptableObject: landing angle window, rotation and air-time point values                |
 
 ### The course features you are implementing
 
 1. **Object Pool** (`PoolService`, extending Unity's `ObjectPool<T>` with generics and callbacks, as in session 6) -
-   dust puffs, crash debris, and style popups. Dust is the case that makes this necessary rather than decorative: a puff is emitted at each wheel on every ground contact, and on a bumpy course that is dozens of short-lived objects per second, sustained for the whole run. Instantiating and destroying them at that rate produces GC spikes, and a dropped frame while the wheels are resolving contact with a slope can throw the vehicle into a rotation the player did not ask for -
+   dust puffs, crash debris, and style popups. Coins and fuel cans are **not** pooled: they are placed by hand in the course scene (pillar 3), collected at most once per run, and a retry reloads the scene anyway, so each one simply deactivates itself. Dust is the case that makes this necessary rather than decorative: a puff is emitted at each wheel on every ground contact, and on a bumpy course that is dozens of short-lived objects per second, sustained for the whole run. Instantiating and destroying them at that rate produces GC spikes, and a dropped frame while the wheels are resolving contact with a slope can throw the vehicle into a rotation the player did not ask for -
    which would break pillar 3 directly, since the death would be the engine's fault rather than the course's. Pools are pre-warmed on `Awake` with every instance deactivated, sized above the initial count, and allowed to grow.
 2. **Singleton** (`GameManager`, `AudioManager`) -
-   guarded on `Awake` against duplicates and marked `DontDestroyOnLoad`. Retry reloads the course scene, so the run state and the looping engine audio both need an owner that survives the reload. without it the engine loop restarts on every attempt, which on a course the player retries fifty times is the difference between atmosphere and irritation.
+   both guarded on `Awake` against duplicates, with a static `Instance`. They differ in lifetime, deliberately. `GameManager` is a **per-scene** singleton: it clears `Instance` in `OnDestroy`, and a retry reloads the course scene and with it a fresh `GameManager`. A persistent one would survive the reload holding references to the previous scene's buggy and finish line, which no longer exist - and every value it owns (timer, fuel, coins, state) is reset on a retry anyway. `AudioManager` **is** marked `DontDestroyOnLoad`, because the looping engine audio is the one thing that should _not_ restart on every attempt: on a course the player retries fifty times, that is the difference between atmosphere and irritation.
 3. **Coroutines** (session 5) -
    the crash sequence (disable input → impulse shake → dust burst → wait → game over screen), the fuel-empty coast-out, the style popup fade, and the low-fuel gauge pulse. Each is a timed sequence with waits rather than per-frame logic. writing them as timer fields in `Update` would mean hand-rolling a state machine for something the language already expresses.
 4. **ScriptableObject** -
    deliberately split three ways along the axes that vary independently. `VehicleConfig` is what a vehicle _is_. `CourseConfig` is what one course _asks of it_ -
-   fuel capacity, and medal times keyed per vehicle, since the same course runs at very different speeds on a buggy and a bike. `ScoringConfig` is what a good landing _is worth_, and is global. The split is what makes the two polish items cheap: a second course is one new asset and one new scene, and a second vehicle is one new asset plus new medal entries, with neither touching the other's tuning.
+   fuel budget and medal times. With one vehicle in the MVP there is one set of medal times. per-vehicle entries are added together with the second vehicle, since the same course runs at very different speeds on a buggy and a bike. `ScoringConfig` is what a good landing _is worth_, and is global. The split is what makes the two polish items cheap: a second course is one new asset and one new scene, and a second vehicle is one new asset plus new medal entries, with neither touching the other's tuning.
 5. **PlayerPrefs** (`SaveService`) -
    best time, best medal, and best coin count, keyed per course and vehicle, read on the menu and written only when beaten.
 6. **Cinemachine 3** (session 8) -
@@ -347,3 +349,4 @@ we are **not** building these
 | ------- | ---------- | ----------------------------------------------- |
 | v0.1    | 2026-09-15 | Initial draft (Hill Climb Racing-based concept) |
 | v0.2    | 2026-09-25 | Asset pack chosen (LucyLavend), licence note and art table updated, PPU rule and in-vehicle draw order set, suspension tuned to 3.4 Hz / 0.5, broken tables repaired |
+| v0.3    | 2026-09-30 | Motor and air torque tuned. fuel drain lowered to 1.5 / 1.5. coast-out rolling drag and time limit added. finishing while coasting allowed, clock runs through the coast-out. GameManager made a per-scene singleton (AudioManager stays persistent). pickups placed by hand, not pooled |
