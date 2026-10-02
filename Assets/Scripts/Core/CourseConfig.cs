@@ -1,7 +1,15 @@
 using UnityEngine;
 
+public enum Medal
+{
+    None,
+    Bronze,
+    Silver,
+    Gold
+}
+
 /// <summary>
-/// What one course asks of the vehicle: its fuel budget and its medal times.
+/// What one course asks of the vehicle: its fuel budget and its medal times (GDD §3, §7).
 /// One asset per course, so a second course never touches the first one's tuning.
 /// </summary>
 [CreateAssetMenu(fileName = "CourseConfig", menuName = "Hill Races/Course Config")]
@@ -21,4 +29,20 @@ public class CourseConfig : ScriptableObject
     [field: SerializeField, Min(0f)] public float GoldTime { get; private set; } = 30f;
     [field: SerializeField, Min(0f)] public float SilverTime { get; private set; } = 40f;
     [field: SerializeField, Min(0f)] public float BronzeTime { get; private set; } = 55f;
+
+    /// <summary>The best medal a finish time earns on this course.</summary>
+    public Medal GetMedal(float finishTime)
+    {
+        if (finishTime <= GoldTime)
+        {
+            return Medal.Gold;
+        }
+
+        if (finishTime <= SilverTime)
+        {
+            return Medal.Silver;
+        }
+
+        return finishTime <= BronzeTime ? Medal.Bronze : Medal.None;
+    }
 }
