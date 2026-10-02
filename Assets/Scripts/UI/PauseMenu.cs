@@ -59,6 +59,12 @@ public class PauseMenu : MonoBehaviour
         _game.RestartCourse();
     }
 
+    /// <summary>Hooked to the Menu button's OnClick in the Inspector.</summary>
+    public void OnMenuClicked()
+    {
+        SceneLoader.LoadMenu();
+    }
+
     private void Pause()
     {
         SetPaused(true);

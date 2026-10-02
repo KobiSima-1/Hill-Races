@@ -29,4 +29,13 @@ public class EngineAudio : MonoBehaviour
 
         audio.SetEngine(running, revs);
     }
+
+    private void OnDisable()
+    {
+        // The AudioManager outlives this buggy: going back to the menu must not leave the engine running.
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.SetEngine(false, 0f);
+        }
+    }
 }

@@ -79,13 +79,19 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        _clockText.text = FormatTime(_game.ElapsedTime);
+        _clockText.text = TimeFormatter.Format(_game.ElapsedTime);
     }
 
     /// <summary>Hooked to the Retry buttons' OnClick in the Inspector.</summary>
     public void OnRetryClicked()
     {
         _game.RestartCourse();
+    }
+
+    /// <summary>Hooked to the Menu buttons' OnClick in the Inspector.</summary>
+    public void OnMenuClicked()
+    {
+        SceneLoader.LoadMenu();
     }
 
     private void HandleStateChanged(RunState state)
@@ -129,7 +135,7 @@ public class UIManager : MonoBehaviour
         float time = _game.ElapsedTime;
         Medal medal = _courseConfig.GetMedal(time);
 
-        _resultsTimeText.text = $"TIME  {FormatTime(time)}";
+        _resultsTimeText.text = $"TIME  {TimeFormatter.Format(time)}";
         _resultsMedalText.text = medal == Medal.None ? "NO MEDAL" : $"{medal.ToString().ToUpper()} MEDAL";
         _resultsCoinsText.text = $"COINS  {_game.Coins}";
         _resultsBestText.text = GetBestLine(_game.LastFinish);
@@ -176,7 +182,7 @@ public class UIManager : MonoBehaviour
             return "NEW BEST TIME!";
         }
 
-        return $"BEST  {FormatTime(record.Previous.Time)}";
+        return $"BEST  {TimeFormatter.Format(record.Previous.Time)}";
     }
 
     /// <summary>How far along the course the vehicle got, from 0 (start) to 1 (finish line).</summary>
@@ -187,10 +193,4 @@ public class UIManager : MonoBehaviour
         return Mathf.Clamp01(travelled / courseLength);
     }
 
-    private static string FormatTime(float seconds)
-    {
-        int minutes = (int)(seconds / 60f);
-        float remainder = seconds - minutes * 60f;
-        return $"{minutes}:{remainder:00.00}";
-    }
 }
