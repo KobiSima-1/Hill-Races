@@ -42,3 +42,7 @@ Asset packs advertised as containing the original _Hill Climb Racing_
 game files were not used. A third-party re-upload of a commercial
 game's assets carries no licence the uploader had standing to grant,
 and this repository is public.
+
+## Sound effects
+- GravelRoll.wav: edited into a seamless loop from "Gravel Road" (freesound_community, Pixabay, Pixabay Content License)
+- Explosion.wav: trimmed from "Car explosion debris" (Mixkit, Mixkit Sound Effects Free License)

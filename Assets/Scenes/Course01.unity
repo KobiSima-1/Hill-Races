@@ -2261,7 +2261,7 @@ MonoBehaviour:
   _restSpeed: 0.2
   _restDuration: 1
   _maxCoastDuration: 8
-  _crashSequenceDuration: 1.5
+  _crashSequenceDuration: 2
 --- !u!4 &1146745049
 Transform:
   m_ObjectHideFlags: 0
@@ -4644,6 +4644,10 @@ PrefabInstance:
     - target: {fileID: 1435954630403094842, guid: 74883385fe5367d4a9b329f64f89f20d, type: 3}
       propertyPath: m_Name
       value: '   Buggy'
+      objectReference: {fileID: 0}
+    - target: {fileID: 9117711292379837474, guid: 74883385fe5367d4a9b329f64f89f20d, type: 3}
+      propertyPath: _groundLayer.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
