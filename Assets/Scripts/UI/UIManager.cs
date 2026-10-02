@@ -101,7 +101,7 @@ public class UIManager : MonoBehaviour
 
     private void ShowFuel(float normalized)
     {
-        _fuelFill.fillAmount = normalized;
+        _fuelFill.rectTransform.anchorMax = new Vector2(normalized, 1f);
 
         if (normalized <= _fuelCriticalThreshold)
         {
