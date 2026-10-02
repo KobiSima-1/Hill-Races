@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7697218663519669224}
   - component: {fileID: 1591636695887850871}
   - component: {fileID: 4601870776795924977}
+  - component: {fileID: 1888058202554351902}
   m_Layer: 7
   m_Name: Buggy
   m_TagString: Untagged
@@ -266,6 +267,20 @@ MonoBehaviour:
   _interval: 0.06
   _prewarmCount: 30
   _maxPoolSize: 100
+--- !u!114 &1888058202554351902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435954630403094842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e7bfc10836b6804fa6e294e1ce207cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EngineAudio
+  _vehicle: {fileID: 7937505628487345309}
+  _throttleRevs: 0.35
 --- !u!1 &2269531519409983509
 GameObject:
   m_ObjectHideFlags: 0

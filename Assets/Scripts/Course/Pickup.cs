@@ -17,6 +17,8 @@ public class Pickup : MonoBehaviour
     [SerializeField] private PickupKind _kind = PickupKind.Coin;
     [Tooltip("Score added by this coin. Ignored for fuel cans.")]
     [SerializeField, Min(1)] private int _coinValue = 10;
+    [Tooltip("Played once when the pickup is collected.")]
+    [SerializeField] private AudioClip _collectSound;
 
     private bool _collected;
 
@@ -37,7 +39,17 @@ public class Pickup : MonoBehaviour
         if (TryCollect())
         {
             _collected = true;
+            PlayCollectSound();
             gameObject.SetActive(false);
+        }
+    }
+
+    private void PlayCollectSound()
+    {
+        // The AudioManager may be missing when a scene is tested on its own.
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySfx(_collectSound);
         }
     }
 

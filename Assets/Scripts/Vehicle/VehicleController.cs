@@ -33,6 +33,7 @@ public class VehicleController : MonoBehaviour
     public bool InputEnabled { get; set; } = true;
     public bool ThrottleHeld => _throttleHeld;
     public float Speed => _body.linearVelocity.magnitude;
+    public float WheelSpinNormalized => Mathf.Clamp01(Mathf.Abs(_rearWheelJoint.jointSpeed) / _config.MaxMotorSpeed);
 
     private void Awake()
     {
