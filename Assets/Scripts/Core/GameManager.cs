@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 /// <summary>The states of one run (GDD §3 state diagram).</summary>
 public enum RunState
@@ -10,6 +12,14 @@ public enum RunState
     Crashed,
     Finished,
     GameOver
+}
+
+/// <summary>Why a run ended without finishing. The game-over screen shows it (GDD §5).</summary>
+public enum RunEndReason
+{
+    None,
+    Crashed,
+    OutOfFuel
 }
 
 /// <summary>
@@ -24,6 +34,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private VehicleController _vehicle;
     [SerializeField] private FinishTrigger _finishTrigger;
     [SerializeField] private FuelSystem _fuel;
+    [SerializeField] private CrashDetector _crashDetector;
 
     [Header("Coast-out")]
     [Tooltip("Rolling resistance added once the engine cuts, so the buggy slows to a stop instead of rocking forever.")]
@@ -35,14 +46,19 @@ public class GameManager : MonoBehaviour
     [Tooltip("Safety net: the run ends after this long even if the vehicle is still moving.")]
     [SerializeField, Min(0f)] private float _maxCoastDuration = 8f;
 
+    [Header("Crash")]
+    [Tooltip("Time between the head hitting the ground and the game-over screen (GDD §3).")]
+    [SerializeField, Min(0f)] private float _crashSequenceDuration = 1.5f;
+
     public RunState State { get; private set; } = RunState.Playing;
+    public RunEndReason EndReason { get; private set; } = RunEndReason.None;
     public float ElapsedTime { get; private set; }
     public int Coins { get; private set; }
 
     /// <summary>True while the run can still end in a finish: driving, or coasting on the last of the momentum.</summary>
     public bool IsRunInProgress => State == RunState.Playing || State == RunState.CoastingOut;
 
-    /// <summary>Raised whenever the run changes state. UI and audio listen to this.</summary>
+    /// <summary>Raised whenever the run changes state. UI, camera and audio listen to this.</summary>
     public event Action<RunState> StateChanged;
 
     /// <summary>Raised with the new coin total whenever a coin is collected. The HUD listens.</summary>
@@ -72,12 +88,14 @@ public class GameManager : MonoBehaviour
     {
         _finishTrigger.Crossed += HandleFinishCrossed;
         _fuel.Emptied += HandleFuelEmptied;
+        _crashDetector.Crashed += HandleCrashed;
     }
 
     private void OnDisable()
     {
         _finishTrigger.Crossed -= HandleFinishCrossed;
         _fuel.Emptied -= HandleFuelEmptied;
+        _crashDetector.Crashed -= HandleCrashed;
     }
 
     private void Update()
@@ -87,6 +105,17 @@ public class GameManager : MonoBehaviour
         {
             ElapsedTime += Time.deltaTime;
         }
+
+        if (WasRestartPressed())
+        {
+            RestartCourse();
+        }
+    }
+
+    /// <summary>Reloads the course from the start. R restarts from anywhere, with no confirmation (GDD §4).</summary>
+    public void RestartCourse()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     /// <summary>Adds a coin's value to the run's score. Returns false once the run is over.</summary>
@@ -106,6 +135,14 @@ public class GameManager : MonoBehaviour
     public bool TryCollectFuelCan()
     {
         return _fuel.TryAddCan();
+    }
+
+    private static bool WasRestartPressed()
+    {
+        Keyboard keyboard = Keyboard.current;
+        Gamepad gamepad = Gamepad.current;
+        return (keyboard != null && keyboard.rKey.wasPressedThisFrame)
+            || (gamepad != null && gamepad.buttonNorth.wasPressedThisFrame);
     }
 
     private void HandleFinishCrossed()
@@ -132,6 +169,17 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CoastOutRoutine());
     }
 
+    private void HandleCrashed()
+    {
+        // A crash can end a normal run or a coast-out, but not a run that has already finished.
+        if (!IsRunInProgress)
+        {
+            return;
+        }
+
+        StartCoroutine(CrashRoutine());
+    }
+
     /// <summary>
     /// Engine off, input off, and the buggy rolls on its momentum until it comes to rest (GDD §3).
     /// It exists so the player watches the consequence of a fuel decision made earlier.
@@ -147,7 +195,7 @@ public class GameManager : MonoBehaviour
         float coastingFor = 0f;
         while (stoppedFor < _restDuration && coastingFor < _maxCoastDuration)
         {
-            // Something else (a crash, later on) may end the run while we coast.
+            // A crash or the finish line may end the run while we coast.
             if (State != RunState.CoastingOut)
             {
                 yield break;
@@ -158,8 +206,29 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
+        EndRun(RunEndReason.OutOfFuel);
+    }
+
+    /// <summary>
+    /// Input off, then a short pause so the player sees the crash before the game-over screen (GDD §3).
+    /// The camera shake, dust burst and engine-die sound hook into the Crashed state in step 7.
+    /// </summary>
+    private IEnumerator CrashRoutine()
+    {
+        _vehicle.InputEnabled = false;
+        SetState(RunState.Crashed);
+        Debug.Log($"Crashed after {ElapsedTime:F1} s at x = {_vehicle.transform.position.x:F0}");
+
+        yield return new WaitForSeconds(_crashSequenceDuration);
+
+        EndRun(RunEndReason.Crashed);
+    }
+
+    private void EndRun(RunEndReason reason)
+    {
+        EndReason = reason;
         SetState(RunState.GameOver);
-        Debug.Log("Game over - out of fuel");
+        Debug.Log($"Game over - {reason}");
     }
 
     private void SetState(RunState newState)
