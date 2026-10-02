@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private FinishTrigger _finishTrigger;
     [SerializeField] private FuelSystem _fuel;
     [SerializeField] private CrashDetector _crashDetector;
+    [SerializeField] private CourseConfig _courseConfig;
 
     [Header("Coast-out")]
     [Tooltip("Rolling resistance added once the engine cuts, so the buggy slows to a stop instead of rocking forever.")]
@@ -54,6 +55,9 @@ public class GameManager : MonoBehaviour
     public RunEndReason EndReason { get; private set; } = RunEndReason.None;
     public float ElapsedTime { get; private set; }
     public int Coins { get; private set; }
+
+    /// <summary>How the last finish compared to the saved records. Set just before the Finished state.</summary>
+    public FinishRecord LastFinish { get; private set; }
 
     /// <summary>True while the run can still end in a finish: driving, or coasting on the last of the momentum.</summary>
     public bool IsRunInProgress => State == RunState.Playing || State == RunState.CoastingOut;
@@ -155,6 +159,11 @@ public class GameManager : MonoBehaviour
         }
 
         _vehicle.InputEnabled = false;
+
+        // Save before announcing the finish, so the results screen can show the new records.
+        Medal medal = _courseConfig.GetMedal(ElapsedTime);
+        LastFinish = SaveService.RecordFinish(SceneManager.GetActiveScene().name, ElapsedTime, medal, Coins);
+
         SetState(RunState.Finished);
         Debug.Log($"Finished in {ElapsedTime:F2} s with {Coins} coins");
     }

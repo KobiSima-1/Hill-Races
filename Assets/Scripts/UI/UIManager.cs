@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _resultsTimeText;
     [SerializeField] private TMP_Text _resultsMedalText;
     [SerializeField] private TMP_Text _resultsCoinsText;
+    [SerializeField] private TMP_Text _resultsBestText;
 
     [Header("Game-over screen")]
     [SerializeField] private GameObject _gameOverPanel;
@@ -101,6 +102,7 @@ public class UIManager : MonoBehaviour
 
     private void ShowFuel(float normalized)
     {
+        // Shrink the fill by moving its right anchor, so the width matches the fuel exactly.
         _fuelFill.rectTransform.anchorMax = new Vector2(normalized, 1f);
 
         if (normalized <= _fuelCriticalThreshold)
@@ -130,6 +132,7 @@ public class UIManager : MonoBehaviour
         _resultsTimeText.text = $"TIME  {FormatTime(time)}";
         _resultsMedalText.text = medal == Medal.None ? "NO MEDAL" : $"{medal.ToString().ToUpper()} MEDAL";
         _resultsCoinsText.text = $"COINS  {_game.Coins}";
+        _resultsBestText.text = GetBestLine(_game.LastFinish);
 
         OpenEndScreen(_resultsPanel);
     }
@@ -163,6 +166,17 @@ public class UIManager : MonoBehaviour
         {
             button.interactable = interactable;
         }
+    }
+
+    /// <summary>One line under the results: a new record, or the record still standing.</summary>
+    private static string GetBestLine(FinishRecord record)
+    {
+        if (record.IsNewBestTime)
+        {
+            return "NEW BEST TIME!";
+        }
+
+        return $"BEST  {FormatTime(record.Previous.Time)}";
     }
 
     /// <summary>How far along the course the vehicle got, from 0 (start) to 1 (finish line).</summary>
