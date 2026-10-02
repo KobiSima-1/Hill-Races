@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7937505628487345309}
   - component: {fileID: 7697218663519669224}
   - component: {fileID: 1591636695887850871}
+  - component: {fileID: 4601870776795924977}
   m_Layer: 7
   m_Name: Buggy
   m_TagString: Untagged
@@ -241,6 +242,30 @@ WheelJoint2D:
   m_Motor:
     m_MotorSpeed: 0
     m_MaximumMotorForce: 10000
+--- !u!114 &4601870776795924977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435954630403094842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44354515d6f1b8b4cb2dbeb056e8165b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WheelDustEmitter
+  _puffPrefab: {fileID: 4941548361993468444, guid: b868c610a276b334a8eaf589bc738aa6, type: 3}
+  _vehicle: {fileID: 7937505628487345309}
+  _wheels:
+  - {fileID: 2956547310224250539}
+  - {fileID: 4299145688114281362}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _minSpeed: 2
+  _interval: 0.06
+  _prewarmCount: 30
+  _maxPoolSize: 100
 --- !u!1 &2269531519409983509
 GameObject:
   m_ObjectHideFlags: 0
