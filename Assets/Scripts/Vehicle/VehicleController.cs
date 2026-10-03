@@ -33,6 +33,7 @@ public class VehicleController : MonoBehaviour
     private float _nitroTimeLeft;
 
     public bool IsGrounded { get; private set; }
+    public bool AreBothWheelsGrounded { get; private set; }
     public bool InputEnabled { get; set; } = true;
     public bool ThrottleHeld => _throttleHeld;
     public float Speed => _body.linearVelocity.magnitude;
@@ -75,8 +76,10 @@ public class VehicleController : MonoBehaviour
     {
         _nitroTimeLeft = Mathf.Max(0f, _nitroTimeLeft - Time.fixedDeltaTime);
 
-        IsGrounded = _rearWheelCollider.IsTouchingLayers(_groundLayer)
-                  || _frontWheelCollider.IsTouchingLayers(_groundLayer);
+        bool rearGrounded = _rearWheelCollider.IsTouchingLayers(_groundLayer);
+        bool frontGrounded = _frontWheelCollider.IsTouchingLayers(_groundLayer);
+        IsGrounded = rearGrounded || frontGrounded;
+        AreBothWheelsGrounded = rearGrounded && frontGrounded;
 
         if (IsGrounded)
         {

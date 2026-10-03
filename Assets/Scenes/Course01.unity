@@ -3017,6 +3017,143 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1381813984}
   m_CullTransparentMesh: 1
+--- !u!1 &1424633125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1424633128}
+  - component: {fileID: 1424633127}
+  - component: {fileID: 1424633126}
+  m_Layer: 5
+  m_Name: FlipText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1424633126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424633125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: FINISHED!
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 28
+  m_fontSizeBase: 28
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1424633127
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424633125}
+  m_CullTransparentMesh: 1
+--- !u!224 &1424633128
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424633125}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1616906526}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -80}
+  m_SizeDelta: {x: 400, y: 50}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1442225936
 GameObject:
   m_ObjectHideFlags: 0
@@ -3810,6 +3947,7 @@ GameObject:
   - component: {fileID: 1616906523}
   - component: {fileID: 1616906527}
   - component: {fileID: 1616906528}
+  - component: {fileID: 1616906529}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -3896,6 +4034,7 @@ RectTransform:
   - {fileID: 721143148}
   - {fileID: 275492552}
   - {fileID: 1132636797}
+  - {fileID: 1424633128}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3956,6 +4095,24 @@ MonoBehaviour:
   _game: {fileID: 1146745048}
   _pausePanel: {fileID: 1132636796}
   _firstSelected: {fileID: 1956409219}
+--- !u!114 &1616906529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616906522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 045680dbeb5493b4080dcc7d4eeb5e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlipPopup
+  _flipTracker: {fileID: 1646002094}
+  _text: {fileID: 1424633126}
+  _popDuration: 0.15
+  _holdDuration: 1.2
+  _fadeDuration: 0.5
+  _popScale: 1.4
 --- !u!114 &1646002082 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7937505628487345309, guid: 74883385fe5367d4a9b329f64f89f20d, type: 3}
@@ -3967,6 +4124,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ece8150f73e46847a1545589b02b6cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VehicleController
+--- !u!114 &1646002094 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7867344740332231857, guid: 74883385fe5367d4a9b329f64f89f20d, type: 3}
+  m_PrefabInstance: {fileID: 2521958382832208349}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc6f688bc1d2b334491d2ec05a58b12b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlipTracker
 --- !u!4 &1688484472 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 565417915056476365, guid: b7a2c1956e926f14c8f1ae8f44d09bf3, type: 3}
@@ -5416,6 +5584,18 @@ PrefabInstance:
     - target: {fileID: 1435954630403094842, guid: 74883385fe5367d4a9b329f64f89f20d, type: 3}
       propertyPath: m_Name
       value: '   Buggy'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7867344740332231857, guid: 74883385fe5367d4a9b329f64f89f20d, type: 3}
+      propertyPath: _maxTouchdownTilt
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7867344740332231857, guid: 74883385fe5367d4a9b329f64f89f20d, type: 3}
+      propertyPath: _rotationTolerance
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7867344740332231857, guid: 74883385fe5367d4a9b329f64f89f20d, type: 3}
+      propertyPath: _groundLayer.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 9117711292379837474, guid: 74883385fe5367d4a9b329f64f89f20d, type: 3}
       propertyPath: _groundLayer.m_Bits

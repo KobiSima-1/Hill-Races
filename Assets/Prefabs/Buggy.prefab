@@ -401,8 +401,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlipTracker
   _vehicle: {fileID: 7937505628487345309}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _minAirTime: 0.4
+  _settleTime: 0.2
   _rotationTolerance: 50
-  _maxLandingTilt: 50
+  _logJumps: 0
   _nitroPerFlip: 1.5
   _comboBonus: 1
 --- !u!114 &3084350967299881160
