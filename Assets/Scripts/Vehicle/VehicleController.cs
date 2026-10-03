@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// Applies the two gameplay inputs to the buggy:
 /// on the ground they drive the wheel motors, in the air they rotate the body.
+/// Nitro, earned by landing flips, raises the motor's speed and torque for a few seconds
+/// and drives the buggy even without the throttle.
 /// Nothing here sets position or velocity directly. all motion comes from motors, torque and gravity.
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
@@ -28,12 +30,14 @@ public class VehicleController : MonoBehaviour
 
     private float _currentMotorSpeed;
     private bool _motorsEngaged;
+    private float _nitroTimeLeft;
 
     public bool IsGrounded { get; private set; }
     public bool InputEnabled { get; set; } = true;
     public bool ThrottleHeld => _throttleHeld;
     public float Speed => _body.linearVelocity.magnitude;
     public float WheelSpinNormalized => Mathf.Clamp01(Mathf.Abs(_rearWheelJoint.jointSpeed) / _config.MaxMotorSpeed);
+    public bool IsNitroActive => _nitroTimeLeft > 0f;
 
     private void Awake()
     {
@@ -69,6 +73,8 @@ public class VehicleController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        _nitroTimeLeft = Mathf.Max(0f, _nitroTimeLeft - Time.fixedDeltaTime);
+
         IsGrounded = _rearWheelCollider.IsTouchingLayers(_groundLayer)
                   || _frontWheelCollider.IsTouchingLayers(_groundLayer);
 
@@ -86,8 +92,10 @@ public class VehicleController : MonoBehaviour
     {
         if (!InputEnabled)
         {
+            // Out of fuel, crashed or finished: the nitro dies with the engine.
             _throttleHeld = false;
             _brakeHeld = false;
+            _nitroTimeLeft = 0f;
             return;
         }
 
@@ -103,7 +111,8 @@ public class VehicleController : MonoBehaviour
 
     private void Drive()
     {
-        bool anyInput = _throttleHeld || _brakeHeld;
+        // Burning nitro drives the buggy on its own, as if the throttle were held.
+        bool anyInput = _throttleHeld || _brakeHeld || IsNitroActive;
 
         if (!anyInput)
         {
@@ -131,7 +140,13 @@ public class VehicleController : MonoBehaviour
             return -_config.MaxMotorSpeed * _config.ReverseFraction;
         }
 
-        return _config.MaxMotorSpeed;
+        return _config.MaxMotorSpeed * NitroMultiplier(_config.NitroSpeedMultiplier);
+    }
+
+    /// <summary>The given multiplier while the nitro burns, otherwise 1.</summary>
+    private float NitroMultiplier(float multiplier)
+    {
+        return IsNitroActive ? multiplier : 1f;
     }
 
     private void RotateInAir()
@@ -170,8 +185,14 @@ public class VehicleController : MonoBehaviour
         // JointMotor2D is a struct: copy, modify, assign back.
         JointMotor2D motor = joint.motor;
         motor.motorSpeed = _currentMotorSpeed * ForwardSign;
-        motor.maxMotorTorque = _config.MotorTorque;
+        motor.maxMotorTorque = _config.MotorTorque * NitroMultiplier(_config.NitroTorqueMultiplier);
         joint.motor = motor;
+    }
+
+    /// <summary>Called by the FlipTracker on a clean landing. Nitro from back-to-back landings adds up.</summary>
+    public void AddNitro(float seconds)
+    {
+        _nitroTimeLeft += seconds;
     }
 
     /// <summary>

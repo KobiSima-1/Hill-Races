@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 9117711292379837474}
   - component: {fileID: -25158758857918690}
   - component: {fileID: 5013666652595132619}
+  - component: {fileID: 7867344740332231857}
+  - component: {fileID: 3084350967299881160}
   m_Layer: 7
   m_Name: Buggy
   m_TagString: Untagged
@@ -44,6 +46,7 @@ Transform:
   - {fileID: 7841819212799301369}
   - {fileID: 158414169731895206}
   - {fileID: 1165265486147187608}
+  - {fileID: 6476839842963931117}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3488341157258016210
@@ -385,6 +388,42 @@ MonoBehaviour:
   _charredColor: {r: 0.25, g: 0.22, b: 0.2, a: 1}
   _explosionSound: {fileID: 8300000, guid: 0c711d12861fd244fbb209c8c24f78fb, type: 3}
   _shakeForce: 1
+--- !u!114 &7867344740332231857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435954630403094842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc6f688bc1d2b334491d2ec05a58b12b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlipTracker
+  _vehicle: {fileID: 7937505628487345309}
+  _rotationTolerance: 50
+  _maxLandingTilt: 50
+  _nitroPerFlip: 1.5
+  _comboBonus: 1
+--- !u!114 &3084350967299881160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435954630403094842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a6f771fe1a7fea4b807493f12df3c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NitroFlame
+  _vehicle: {fileID: 7937505628487345309}
+  _flamePrefab: {fileID: 4941548361993468444, guid: c80868d5bf2c2664189c100ad857d2a7, type: 3}
+  _exhaust: {fileID: 6476839842963931117}
+  _interval: 0.03
+  _flameSpeed: 4
+  _prewarmCount: 20
+  _maxPoolSize: 60
 --- !u!1 &2269531519409983509
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,6 +827,37 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.35
+--- !u!1 &4747120483021764609
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6476839842963931117}
+  m_Layer: 7
+  m_Name: Exhaust
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6476839842963931117
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4747120483021764609}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.4, y: -0.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 449726817175222163}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8217905186115339233
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,4 +31,10 @@ public class VehicleConfig : ScriptableObject
 
     [field: Header("Air control")]
     [field: SerializeField] public float AirTorque { get; private set; } = 220f;
+
+    [field: Header("Nitro")]
+    [field: Tooltip("MaxMotorSpeed is multiplied by this while the nitro burns.")]
+    [field: SerializeField, Min(1f)] public float NitroSpeedMultiplier { get; private set; } = 1.5f;
+    [field: Tooltip("MotorTorque is multiplied by this while the nitro burns.")]
+    [field: SerializeField, Min(1f)] public float NitroTorqueMultiplier { get; private set; } = 1.3f;
 }
