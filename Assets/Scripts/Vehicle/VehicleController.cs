@@ -36,6 +36,7 @@ public class VehicleController : MonoBehaviour
     public bool AreBothWheelsGrounded { get; private set; }
     public bool InputEnabled { get; set; } = true;
     public bool ThrottleHeld => _throttleHeld;
+    public bool BrakeHeld => _brakeHeld;
     public float Speed => _body.linearVelocity.magnitude;
     public float WheelSpinNormalized => Mathf.Clamp01(Mathf.Abs(_rearWheelJoint.jointSpeed) / _config.MaxMotorSpeed);
     public bool IsNitroActive => _nitroTimeLeft > 0f;

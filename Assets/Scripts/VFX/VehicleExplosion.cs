@@ -34,6 +34,7 @@ public class VehicleExplosion : MonoBehaviour
 
     [Header("Feedback")]
     [SerializeField] private AudioClip _explosionSound;
+    [SerializeField, Range(0f, 1f)] private float _explosionVolume = 0.6f;
     [SerializeField, Min(0f)] private float _shakeForce = 1f;
 
     private PoolService<DustPuff> _firePool;
@@ -83,7 +84,7 @@ public class VehicleExplosion : MonoBehaviour
 
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.PlaySfx(_explosionSound);
+            AudioManager.Instance.PlaySfx(_explosionSound, _explosionVolume);
         }
 
         if (_impulseSource != null)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Plays the engine loop, the ground roll loop and one-shot sound effects (GDD §6, §7).
@@ -22,6 +23,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField, Min(0.1f)] private float _maxPitch = 2f;
     [Tooltip("How quickly the pitch follows the revs. Higher = snappier.")]
     [SerializeField, Min(0.1f)] private float _pitchResponse = 8f;
+    [Tooltip("Added on top of the pitch while the nitro burns, so it screams above the normal maximum.")]
+    [SerializeField, Min(0f)] private float _nitroPitchBoost = 0.5f;
 
     [Header("Ground roll")]
     [SerializeField, Range(0f, 1f)] private float _rollMaxVolume = 0.6f;
@@ -45,6 +48,7 @@ public class AudioManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += HandleSceneLoaded;
         _targetPitch = _idlePitch;
         _rollSource.volume = 0f;
     }
@@ -53,8 +57,16 @@ public class AudioManager : MonoBehaviour
     {
         if (Instance == this)
         {
+            SceneManager.sceneLoaded -= HandleSceneLoaded;
             Instance = null;
         }
+    }
+
+    private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // This manager outlives the scene, and so would a long effect like the explosion.
+        // A restart or a trip to the menu starts with silence.
+        _sfxSource.Stop();
     }
 
     private void Update()
@@ -97,10 +109,14 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>Called every frame by the vehicle. revs is 0 at idle and 1 at full wheel speed.</summary>
-    public void SetEngine(bool running, float revs)
+    public void SetEngine(bool running, float revs, bool nitro = false)
     {
         _engineRunning = running;
         _targetPitch = Mathf.Lerp(_idlePitch, _maxPitch, Mathf.Clamp01(revs));
+        if (nitro)
+        {
+            _targetPitch += _nitroPitchBoost;
+        }
     }
 
     /// <summary>Called every frame by the vehicle. 0 = no wheel on the ground or standing still, 1 = full speed.</summary>
@@ -109,11 +125,12 @@ public class AudioManager : MonoBehaviour
         _rollIntensity = Mathf.Clamp01(intensity);
     }
 
-    public void PlaySfx(AudioClip clip)
+    /// <summary>Plays a one-shot effect. volume scales this one clip only, from 0 to 1.</summary>
+    public void PlaySfx(AudioClip clip, float volume = 1f)
     {
         if (clip != null)
         {
-            _sfxSource.PlayOneShot(clip);
+            _sfxSource.PlayOneShot(clip, volume);
         }
     }
 }
