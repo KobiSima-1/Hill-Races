@@ -309,6 +309,7 @@ MonoBehaviour:
   _engineSource: {fileID: 2753159559714892098}
   _rollSource: {fileID: 6247582918660561045}
   _sfxSource: {fileID: 8518840089670018975}
+  _musicSource: {fileID: 8448976323398466256}
   _idlePitch: 0.8
   _maxPitch: 2
   _pitchResponse: 8
