@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// The crunch of the tyres on the dirt (GDD §6). Louder and higher the faster the buggy rolls,
+/// The crunch of the tyres on the dirt. Louder and higher the faster the buggy rolls,
 /// silent while it is in the air.
 /// </summary>
 public class WheelRollAudio : MonoBehaviour

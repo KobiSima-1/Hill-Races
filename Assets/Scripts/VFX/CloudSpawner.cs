@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Keeps the sky populated with clouds (GDD §6): a few at the start across the view,
+/// Keeps the sky populated with clouds: a few at the start across the view,
 /// then a new one just past the right edge every few seconds, at a random height and size.
 /// Clouds come from an object pool and return to it when they leave the view on the left.
 /// </summary>

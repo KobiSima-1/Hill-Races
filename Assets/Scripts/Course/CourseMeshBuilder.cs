@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Turns the hand-authored EdgeCollider2D points into the course visuals (GDD §6, §7):
+/// Turns the hand-authored EdgeCollider2D points into the course visuals:
 /// a grass strip of fixed thickness along the surface, and a dirt fill down to a floor.
 /// The authored points are smoothed into a curve once on Awake, and the same curve is
 /// written back into the collider, so what the wheels touch is exactly what is drawn.
@@ -117,7 +117,7 @@ public class CourseMeshBuilder : MonoBehaviour
 
     private static float KnotInterval(Vector2 a, Vector2 b)
     {
-        // Square root of the distance is what makes it "centripetal".
+        // Square root of the distance.
         return Mathf.Max(Mathf.Sqrt(Vector2.Distance(a, b)), 0.0001f);
     }
 

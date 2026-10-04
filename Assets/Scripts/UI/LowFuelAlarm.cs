@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Beeps, and blinks the fuel gauge, when the fuel runs low (GDD §3, §6).
+/// Beeps, and blinks the fuel gauge, when the fuel runs low.
 /// The beeps speed up as the tank empties, so the player hears the pressure without looking.
 /// </summary>
 public class LowFuelAlarm : MonoBehaviour

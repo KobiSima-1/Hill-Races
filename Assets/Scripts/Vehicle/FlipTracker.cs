@@ -9,7 +9,7 @@ public enum FlipMiss
 }
 
 /// <summary>
-/// Counts full rotations during a jump and rewards a clean landing with nitro (GDD §3).
+/// Counts full rotations during a jump and rewards a clean landing with nitro.
 ///
 /// A jump is judged only once the buggy has settled on both wheels, not at the first touch:
 /// a short bounce or a wheel scraping the ground mid-flip does not end the jump, and a landing

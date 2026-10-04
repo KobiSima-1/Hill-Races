@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 
 /// <summary>
-/// The first screen of the game (GDD §5): start the course, see the saved bests, turn the music on or off, or quit.
+/// The first screen of the game:start the course, see the saved bests, turn the music on or off, or quit.
 /// The bests are read from PlayerPrefs through SaveService, under the course's scene name.
 /// </summary>
 public class MainMenu : MonoBehaviour

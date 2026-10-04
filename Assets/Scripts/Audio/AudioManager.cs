@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Plays the engine loop, the ground roll loop and one-shot sound effects (GDD §6, §7).
+/// Plays the engine loop, the ground roll loop and one-shot sound effects.
 /// A persistent singleton: it survives the scene reload on every retry, so there is
 /// exactly one set of sources for the whole session instead of a new one per attempt.
 /// </summary>

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Binds the HUD and the end-of-run screens to the GameManager and FuelSystem events (GDD §5).
+/// Binds the HUD and the end-of-run screens to the GameManager and FuelSystem events.
 /// It only displays; it never changes the run. The retry button asks the GameManager to restart.
 /// </summary>
 public class UIManager : MonoBehaviour

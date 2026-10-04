@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Sits on the buggy and tells the AudioManager how hard the engine is working (GDD §6).
+/// Sits on the buggy and tells the AudioManager how hard the engine is working.
 /// The engine runs only while the run is being driven: it dies with the fuel, a crash, or the finish.
 /// Nitro makes it scream: a whoosh when it kicks in, and a higher pitch while it burns.
 /// </summary>

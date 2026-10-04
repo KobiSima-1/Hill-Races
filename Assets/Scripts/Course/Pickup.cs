@@ -7,7 +7,7 @@ public enum PickupKind
 }
 
 /// <summary>
-/// One hand-placed coin or fuel can (GDD §3, §7). On contact with the vehicle it asks the
+/// One hand-placed coin or fuel can. On contact with the vehicle it asks the
 /// GameManager to collect it, and disappears only if the GameManager accepted it -
 /// a fuel can touched after the tank ran dry stays where it is.
 /// </summary>

@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// Shows the flip that was just landed, for example "DOUBLE BACKFLIP!  NITRO +4.0s",
-/// or teases a failed attempt with "LAME LANDING!" (GDD §6).
+/// or teases a failed attempt with "LAME LANDING!".
 /// The text pops in, holds, and fades out in a coroutine. A new message restarts it.
 /// </summary>
 public class FlipPopup : MonoBehaviour

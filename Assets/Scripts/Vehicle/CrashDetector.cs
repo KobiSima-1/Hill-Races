@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// Sits on the driver's head and reports a crash (GDD §3 failure rule a). Two ways to crash:
+/// Sits on the driver's head and reports a crash. Two ways to crash:
 /// the head touches the ground, or the buggy lies upside down and stuck - on its roof or its side,
 /// with the head clear of the ground - which would otherwise leave the player with no way out.
 /// The head collider is a trigger, so it never props the buggy up - it only detects.

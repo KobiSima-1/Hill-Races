@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Plays the crash sound the moment the driver's head hits the ground (GDD §6).
+/// Plays the crash sound the moment the driver's head hits the ground.
 /// </summary>
 public class CrashAudio : MonoBehaviour
 {

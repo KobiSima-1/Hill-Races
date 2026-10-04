@@ -9,7 +9,7 @@ public enum Medal
 }
 
 /// <summary>
-/// What one course asks of the vehicle: its fuel budget and its medal times (GDD §3, §7).
+/// What one course asks of the vehicle: its fuel budget and its medal times.
 /// One asset per course, so a second course never touches the first one's tuning.
 /// </summary>
 [CreateAssetMenu(fileName = "CourseConfig", menuName = "Hill Races/Course Config")]

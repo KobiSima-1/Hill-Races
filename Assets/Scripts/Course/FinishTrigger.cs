@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// Detects the vehicle crossing the finish line and reports it once (GDD §3, §7).
+/// Detects the vehicle crossing the finish line and reports it once.
 /// It only raises an event; deciding what finishing means is the GameManager's job.
 /// </summary>
 [RequireComponent(typeof(Collider2D))]

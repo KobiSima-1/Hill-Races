@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Shoots pooled fire puffs out of the exhaust while the nitro is burning (GDD §7).
+/// Shoots pooled fire puffs out of the exhaust while the nitro is burning.
 /// It reuses the FirePuff prefab of the explosion and the same PoolService.
 /// </summary>
 public class NitroFlame : MonoBehaviour

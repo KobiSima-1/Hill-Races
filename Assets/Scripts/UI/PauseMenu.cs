@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Esc (or Start on a gamepad) freezes the run and opens the pause panel (GDD §5).
+/// Esc (or Start on a gamepad) freezes the run and opens the pause panel.
 /// Pausing sets Time.timeScale to 0, which stops physics, the clock and the fuel drain,
 /// and pauses every AudioSource, including the persistent AudioManager.
 /// </summary>

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-/// <summary>The states of one run (GDD §3 state diagram).</summary>
+/// <summary>The states of one run.</summary>
 public enum RunState
 {
     Playing,
@@ -14,7 +14,7 @@ public enum RunState
     GameOver
 }
 
-/// <summary>Why a run ended without finishing. The game-over screen shows it (GDD §5).</summary>
+/// <summary>Why a run ended without finishing. The game-over screen shows it.</summary>
 public enum RunEndReason
 {
     None,
@@ -23,7 +23,7 @@ public enum RunEndReason
 }
 
 /// <summary>
-/// Owns the run: its state, the course timer, and the coin and style totals (GDD §7).
+/// Owns the run: its state, the course timer, and the coin and style totals.
 /// One per course scene; a retry reloads the scene and with it a fresh GameManager.
 /// </summary>
 public class GameManager : MonoBehaviour
@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>Reloads the course from the start. R restarts from anywhere, with no confirmation (GDD §4).</summary>
+    /// <summary>Reloads the course from the start. R restarts from anywhere, with no confirmation.</summary>
     public void RestartCourse()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    /// <summary>Refuels by one can. Returns false if the can was not used (the tank already ran dry).</summary>
+    /// <summary>Refuels by one can. Returns false if the can was not used.</summary>
     public bool TryCollectFuelCan()
     {
         return _fuel.TryAddCan();
@@ -190,7 +190,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Engine off, input off, and the buggy rolls on its momentum until it comes to rest (GDD §3).
+    /// Engine off, input off, and the buggy rolls on its momentum until it comes to rest.
     /// It exists so the player watches the consequence of a fuel decision made earlier.
     /// </summary>
     private IEnumerator CoastOutRoutine()
@@ -219,8 +219,8 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Input off, then a short pause so the player sees the crash before the game-over screen (GDD §3).
-    /// The camera shake, dust burst and engine-die sound hook into the Crashed state in step 7.
+    /// Input off, then a short pause so the player sees the crash before the game-over screen.
+    /// The camera shake, dust burst and engine-die sound hook into the Crashed state.
     /// </summary>
     private IEnumerator CrashRoutine()
     {

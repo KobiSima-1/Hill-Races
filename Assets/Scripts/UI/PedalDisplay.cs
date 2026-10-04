@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// The gas and brake pedals in the bottom corners of the HUD (GDD §6).
+/// The gas and brake pedals in the bottom corners of the HUD.
 /// They press down while their input is held, like the pedals of the original game.
 /// </summary>
 public class PedalDisplay : MonoBehaviour

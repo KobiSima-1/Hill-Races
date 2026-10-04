@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 
 /// <summary>
-/// A needle gauge on the HUD that shows how fast the buggy is going (GDD §6).
+/// A needle gauge on the HUD that shows how fast the buggy is going.
 /// The needle eases toward the real speed so bumps don't make it jitter.
 /// </summary>
 public class Speedometer : MonoBehaviour

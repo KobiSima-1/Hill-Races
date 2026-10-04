@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Kicks up dust behind each wheel that is on the ground while the buggy is moving (GDD §7).
+/// Kicks up dust behind each wheel that is on the ground while the buggy is moving.
 /// Dozens of puffs per second for the whole run - this is the case the object pool exists for.
 /// </summary>
 public class WheelDustEmitter : MonoBehaviour

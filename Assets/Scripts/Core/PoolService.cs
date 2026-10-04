@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 
 /// <summary>
-/// A generic wrapper over Unity's ObjectPool (GDD §7, course session 6).
+/// A generic wrapper over Unity's ObjectPool.
 /// Instances are created once, pre-warmed and deactivated, then reused instead of
 /// being instantiated and destroyed - so a stream of short-lived effects causes no GC spikes.
 /// </summary>

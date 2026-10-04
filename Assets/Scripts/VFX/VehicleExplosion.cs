@@ -2,7 +2,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 
 /// <summary>
-/// Blows the buggy up when the driver's head hits the ground (GDD §6, §7):
+/// Blows the buggy up when the driver's head hits the ground:
 /// a fireball and smoke from pooled puffs, a boom, a camera shake, the wheels flying off
 /// and the body left charred. It reacts to the GameManager entering the Crashed state, not to the
 /// head trigger itself, so a buggy that tips over after crossing the finish line does not explode.
