@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Turns the hand authored EdgeCollider2D points into the course visuals:
+/// Turns the hand-authored EdgeCollider2D points into the course visuals (GDD §6, §7):
 /// a grass strip of fixed thickness along the surface, and a dirt fill down to a floor.
 /// The authored points are smoothed into a curve once on Awake, and the same curve is
 /// written back into the collider, so what the wheels touch is exactly what is drawn.
@@ -22,6 +22,12 @@ public class CourseMeshBuilder : MonoBehaviour
     [Header("Grass strip")]
     [SerializeField] private Material _grassMaterial;
     [SerializeField, Min(0.05f)] private float _grassThickness = 0.4f;
+    [Tooltip("Slopes up to this angle (degrees) get the full grass thickness.")]
+    [SerializeField, Range(0f, 90f)] private float _fullGrassSlope = 35f;
+    [Tooltip("From this angle on, the grass thins down to a thin edge, so steep faces show dirt, not a grass wall.")]
+    [SerializeField, Range(0f, 90f)] private float _noGrassSlope = 65f;
+    [Tooltip("Grass thickness left on the steepest faces, as a fraction of the full thickness.")]
+    [SerializeField, Range(0f, 1f)] private float _minGrassFraction = 0.15f;
     [Tooltip("World units of surface covered by one repeat of the grass texture.")]
     [SerializeField, Min(0.1f)] private float _grassTileLength = 1f;
 
@@ -51,10 +57,11 @@ public class CourseMeshBuilder : MonoBehaviour
         }
 
         List<Vector2> normals = ComputeNormals(curve);
+        float[] grassThickness = ComputeGrassThickness(normals);
 
         // Fill first, strip second: the strip is drawn on the sorting layer above it anyway.
-        CreateMeshObject("DirtFill", BuildFillMesh(curve, normals), _dirtMaterial, FillSortingLayer);
-        CreateMeshObject("GrassStrip", BuildStripMesh(curve, normals), _grassMaterial, EdgeSortingLayer);
+        CreateMeshObject("DirtFill", BuildFillMesh(curve, normals, grassThickness), _dirtMaterial, FillSortingLayer);
+        CreateMeshObject("GrassStrip", BuildStripMesh(curve, normals, grassThickness), _grassMaterial, EdgeSortingLayer);
     }
 
     // ---------- Curve ----------
@@ -127,20 +134,39 @@ public class CourseMeshBuilder : MonoBehaviour
             Vector2 previous = curve[Mathf.Max(i - 1, 0)];
             Vector2 next = curve[Mathf.Min(i + 1, curve.Count - 1)];
             Vector2 tangent = (next - previous).normalized;
-            // Rotate the tangent 90° counter clockwise: for a left-to-right course this points up.
+            // Rotate the tangent 90° counter-clockwise: for a left-to-right course this points up.
             normals.Add(new Vector2(-tangent.y, tangent.x));
         }
         return normals;
     }
 
+    /// <summary>
+    /// Full grass on gentle ground, thinning to a narrow edge on steep faces:
+    /// grass grows on top of a hill, not down the side of a cliff.
+    /// </summary>
+    private float[] ComputeGrassThickness(List<Vector2> normals)
+    {
+        var thickness = new float[normals.Count];
+        for (int i = 0; i < normals.Count; i++)
+        {
+            float slope = Vector2.Angle(normals[i], Vector2.up);
+            float fullness = Mathf.InverseLerp(_noGrassSlope, _fullGrassSlope, slope);
+            thickness[i] = _grassThickness * Mathf.Lerp(_minGrassFraction, 1f, fullness);
+        }
+        return thickness;
+    }
+
     // ---------- Meshes ----------
 
-    private Mesh BuildStripMesh(List<Vector2> curve, List<Vector2> normals)
+    private Mesh BuildStripMesh(List<Vector2> curve, List<Vector2> normals, float[] thickness)
     {
         int count = curve.Count;
         var vertices = new Vector3[count * 2];
         var uvs = new Vector2[count * 2];
         float distance = 0f;
+
+        // Offset along the normal, not straight down, so the strip keeps its thickness on slopes.
+        Vector2[] bottoms = OffsetWithoutFolds(curve, normals, thickness, 1f);
 
         for (int i = 0; i < count; i++)
         {
@@ -149,9 +175,8 @@ public class CourseMeshBuilder : MonoBehaviour
                 distance += Vector2.Distance(curve[i - 1], curve[i]);
             }
 
-            // Offset along the normal, not straight down, so the strip keeps its thickness on slopes.
             Vector2 top = curve[i];
-            Vector2 bottom = curve[i] - normals[i] * _grassThickness;
+            Vector2 bottom = bottoms[i];
 
             // U follows the distance along the surface, so the texture never stretches on slopes.
             float u = distance / _grassTileLength;
@@ -164,16 +189,18 @@ public class CourseMeshBuilder : MonoBehaviour
         return CreateMesh("GrassStrip", vertices, uvs, count);
     }
 
-    private Mesh BuildFillMesh(List<Vector2> curve, List<Vector2> normals)
+    private Mesh BuildFillMesh(List<Vector2> curve, List<Vector2> normals, float[] thickness)
     {
         int count = curve.Count;
         var vertices = new Vector3[count * 2];
         var uvs = new Vector2[count * 2];
 
+        // Start halfway down the grass strip so no gap can show between the two meshes.
+        Vector2[] tops = OffsetWithoutFolds(curve, normals, thickness, 0.5f);
+
         for (int i = 0; i < count; i++)
         {
-            // Start halfway down the grass strip so no gap can show between the two meshes.
-            Vector2 top = curve[i] - normals[i] * (_grassThickness * 0.5f);
+            Vector2 top = tops[i];
             Vector2 bottom = new Vector2(top.x, Mathf.Min(_floorY, top.y));
 
             vertices[i * 2] = top;
@@ -184,6 +211,28 @@ public class CourseMeshBuilder : MonoBehaviour
         }
 
         return CreateMesh("DirtFill", vertices, uvs, count);
+    }
+
+    /// <summary>
+    /// Moves every curve point inward along its normal by its thickness times the given fraction.
+    /// On a sharp crest the inward offsets cross over each other, which draws the strip folded
+    /// back on itself. Wherever an offset point would move backwards relative to the curve,
+    /// it stays on the previous one instead, so the strip pinches into a clean wedge there.
+    /// </summary>
+    private static Vector2[] OffsetWithoutFolds(List<Vector2> curve, List<Vector2> normals, float[] thickness, float fraction)
+    {
+        var offset = new Vector2[curve.Count];
+        offset[0] = curve[0] - normals[0] * (thickness[0] * fraction);
+
+        for (int i = 1; i < curve.Count; i++)
+        {
+            Vector2 candidate = curve[i] - normals[i] * (thickness[i] * fraction);
+            Vector2 curveDirection = curve[i] - curve[i - 1];
+            bool movesBackwards = Vector2.Dot(candidate - offset[i - 1], curveDirection) <= 0f;
+            offset[i] = movesBackwards ? offset[i - 1] : candidate;
+        }
+
+        return offset;
     }
 
     /// <summary>
