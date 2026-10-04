@@ -17,5 +17,5 @@ MonoBehaviour:
   <FuelDrainThrottle>k__BackingField: 1.5
   <FuelPerCan>k__BackingField: 35
   <GoldTime>k__BackingField: 55
-  <SilverTime>k__BackingField: 63
-  <BronzeTime>k__BackingField: 75
+  <SilverTime>k__BackingField: 65
+  <BronzeTime>k__BackingField: 80
