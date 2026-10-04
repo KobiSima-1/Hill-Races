@@ -35,7 +35,8 @@ public readonly struct FinishRecord
 }
 
 /// <summary>
-/// Reads and writes the best time, best medal and best coin count per course, in PlayerPrefs (GDD §7).
+/// Reads and writes the best time, best medal and best coin count per course, in PlayerPrefs (GDD §7),
+/// and the one setting the game has: whether the music is on.
 /// Only a finished run is recorded, and each best is written only when it is beaten -
 /// so a slow run with many coins still keeps its coin record.
 /// </summary>
@@ -87,6 +88,17 @@ public static class SaveService
         PlayerPrefs.Save();
 
         return new FinishRecord(previous, isNewBestTime, isNewBestMedal, isNewBestCoins);
+    }
+
+    public static bool LoadMusicEnabled()
+    {
+        return PlayerPrefs.GetInt($"{KeyPrefix}.MusicEnabled", 1) == 1;
+    }
+
+    public static void SaveMusicEnabled(bool enabled)
+    {
+        PlayerPrefs.SetInt($"{KeyPrefix}.MusicEnabled", enabled ? 1 : 0);
+        PlayerPrefs.Save();
     }
 
     private static string Key(string courseId, string field)

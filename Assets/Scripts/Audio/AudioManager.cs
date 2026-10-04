@@ -17,6 +17,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource _rollSource;
     [Tooltip("Source for one-shot effects. No clip needed.")]
     [SerializeField] private AudioSource _sfxSource;
+    [Tooltip("Looping source with the music. Play On Awake on.")]
+    [SerializeField] private AudioSource _musicSource;
 
     [Header("Engine pitch")]
     [SerializeField, Min(0.1f)] private float _idlePitch = 0.8f;
@@ -49,6 +51,7 @@ public class AudioManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += HandleSceneLoaded;
+        _musicSource.mute = !SaveService.LoadMusicEnabled();
         _targetPitch = _idlePitch;
         _rollSource.volume = 0f;
     }
@@ -123,6 +126,16 @@ public class AudioManager : MonoBehaviour
     public void SetRoll(float intensity)
     {
         _rollIntensity = Mathf.Clamp01(intensity);
+    }
+
+    public bool IsMusicEnabled => !_musicSource.mute;
+
+    /// <summary>Turns the music on or off and remembers the choice for the next session.</summary>
+    public void SetMusicEnabled(bool enabled)
+    {
+        // Mute rather than stop, so turning it back on continues the song instead of restarting it.
+        _musicSource.mute = !enabled;
+        SaveService.SaveMusicEnabled(enabled);
     }
 
     /// <summary>Plays a one-shot effect. volume scales this one clip only, from 0 to 1.</summary>
