@@ -3948,6 +3948,7 @@ GameObject:
   - component: {fileID: 1616906527}
   - component: {fileID: 1616906528}
   - component: {fileID: 1616906529}
+  - component: {fileID: 1616906530}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -4109,10 +4110,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FlipPopup
   _flipTracker: {fileID: 1646002094}
   _text: {fileID: 1424633126}
+  _successColor: {r: 1, g: 0.82, b: 0.25, a: 1}
+  _missColor: {r: 1, g: 0.35, b: 0.3, a: 1}
   _popDuration: 0.15
   _holdDuration: 1.2
   _fadeDuration: 0.5
   _popScale: 1.4
+--- !u!114 &1616906530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616906522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b08e0f2a7756f540a53a34f40616370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LowFuelAlarm
+  _fuel: {fileID: 1146745050}
+  _beepSound: {fileID: 0}
+  _blinkingGraphics:
+  - {fileID: 1498438726}
+  _warningLevel: 0.15
+  _slowInterval: 1.2
+  _fastInterval: 0.4
 --- !u!114 &1646002082 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7937505628487345309, guid: 74883385fe5367d4a9b329f64f89f20d, type: 3}

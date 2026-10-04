@@ -1,6 +1,13 @@
 using System;
 using UnityEngine;
 
+/// <summary>Why a flip attempt earned nothing.</summary>
+public enum FlipMiss
+{
+    NotEnoughRotation,
+    BadLanding
+}
+
 /// <summary>
 /// Counts full rotations during a jump and rewards a clean landing with nitro (GDD §3).
 ///
@@ -31,6 +38,8 @@ public class FlipTracker : MonoBehaviour
     [Header("What counts as a clean flip")]
     [Tooltip("How far the total rotation may be from a whole number of turns, because take-off and landing slopes differ.")]
     [SerializeField, Range(0f, 90f)] private float _rotationTolerance = 60f;
+    [Tooltip("Rotation from which a jump counts as a flip attempt, so a failed one gets a message.")]
+    [SerializeField, Range(0f, 360f)] private float _minAttemptRotation = 180f;
 
     [Header("Debug")]
     [Tooltip("Logs every judged jump and why it did or did not count.")]
@@ -44,6 +53,9 @@ public class FlipTracker : MonoBehaviour
 
     /// <summary>Raised on a clean landing: number of flips, true for backflips, and the nitro earned.</summary>
     public event Action<int, bool, float> FlipLanded;
+
+    /// <summary>Raised when a flip was attempted but did not count, and why.</summary>
+    public event Action<FlipMiss> FlipMissed;
 
     private Rigidbody2D _body;
     private float _lastAngle;
@@ -112,7 +124,8 @@ public class FlipTracker : MonoBehaviour
             Debug.Log($"Jump: air {_airTime:F2}s, rotation {_rotation:F0}, body landed first {_bodyHitGround}");
         }
 
-        if (_airTime < _minAirTime || _bodyHitGround || !IsRunBeingDriven())
+        // A crash is its own punishment, and a short hop is not a jump at all.
+        if (_airTime < _minAirTime || !IsRunBeingDriven())
         {
             return;
         }
@@ -120,11 +133,20 @@ public class FlipTracker : MonoBehaviour
         float turns = Mathf.Abs(_rotation) / 360f;
         int flips = Mathf.RoundToInt(turns);
         float missedBy = Mathf.Abs(turns - flips) * 360f;
-        if (flips == 0 || missedBy > _rotationTolerance)
-        {
-            return;
-        }
+        bool rotatedEnough = flips > 0 && missedBy <= _rotationTolerance;
 
+        if (rotatedEnough && !_bodyHitGround)
+        {
+            Reward(flips);
+        }
+        else if (Mathf.Abs(_rotation) >= _minAttemptRotation)
+        {
+            FlipMissed?.Invoke(rotatedEnough ? FlipMiss.BadLanding : FlipMiss.NotEnoughRotation);
+        }
+    }
+
+    private void Reward(int flips)
+    {
         // Counter-clockwise is nose up while driving right, so a positive sum is a backflip.
         bool isBackflip = _rotation > 0f;
         float nitro = flips * _nitroPerFlip + (flips - 1) * _comboBonus;

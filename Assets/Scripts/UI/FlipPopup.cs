@@ -3,13 +3,16 @@ using TMPro;
 using UnityEngine;
 
 /// <summary>
-/// Shows the flip that was just landed, for example "DOUBLE BACKFLIP!  NITRO +4.0s" (GDD §6).
-/// The text pops in, holds, and fades out in a coroutine. A new flip restarts it.
+/// Shows the flip that was just landed, for example "DOUBLE BACKFLIP!  NITRO +4.0s",
+/// or teases a failed attempt with "LAME LANDING!" (GDD §6).
+/// The text pops in, holds, and fades out in a coroutine. A new message restarts it.
 /// </summary>
 public class FlipPopup : MonoBehaviour
 {
     [SerializeField] private FlipTracker _flipTracker;
     [SerializeField] private TMP_Text _text;
+    [SerializeField] private Color _successColor = new Color(1f, 0.82f, 0.25f);
+    [SerializeField] private Color _missColor = new Color(1f, 0.35f, 0.3f);
 
     [SerializeField, Min(0f)] private float _popDuration = 0.15f;
     [SerializeField, Min(0f)] private float _holdDuration = 1.2f;
@@ -26,16 +29,30 @@ public class FlipPopup : MonoBehaviour
     private void OnEnable()
     {
         _flipTracker.FlipLanded += HandleFlipLanded;
+        _flipTracker.FlipMissed += HandleFlipMissed;
     }
 
     private void OnDisable()
     {
         _flipTracker.FlipLanded -= HandleFlipLanded;
+        _flipTracker.FlipMissed -= HandleFlipMissed;
     }
 
     private void HandleFlipLanded(int flips, bool isBackflip, float nitroSeconds)
     {
-        _text.text = $"{GetComboWord(flips)}{(isBackflip ? "BACKFLIP" : "FRONTFLIP")}!\nNITRO +{nitroSeconds:0.0}s";
+        string flip = isBackflip ? "BACKFLIP" : "FRONTFLIP";
+        Show($"{GetComboWord(flips)}{flip}!\nNITRO +{nitroSeconds:0.0}s", _successColor);
+    }
+
+    private void HandleFlipMissed(FlipMiss miss)
+    {
+        Show(miss == FlipMiss.BadLanding ? "LAME!" : "NOT GOOD ENOUGH!", _missColor);
+    }
+
+    private void Show(string message, Color color)
+    {
+        _text.text = message;
+        _text.color = color;
 
         if (_showRoutine != null)
         {
