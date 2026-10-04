@@ -970,6 +970,64 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 565417915056476365, guid: b7a2c1956e926f14c8f1ae8f44d09bf3, type: 3}
   m_PrefabInstance: {fileID: 1789932279}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &318848856
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 318848858}
+  - component: {fileID: 318848857}
+  m_Layer: 0
+  m_Name: CloudSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &318848857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318848856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d609bb7e9392011468a70ff0838194bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CloudSpawner
+  _cloudPrefabs:
+  - {fileID: 756603195213442868, guid: 05012754cfee0964780efe63a25c96e1, type: 3}
+  - {fileID: 7579833392687996808, guid: e22d7d48be29d664e86f60ec9322787a, type: 3}
+  - {fileID: 8199841358422981325, guid: 0df91de5b2395214b80633608c0c4da1, type: 3}
+  _minInterval: 2
+  _maxInterval: 5
+  _startingClouds: 4
+  _minHeight: 1.5
+  _maxHeight: 4.5
+  _spawnMargin: 4
+  _minScale: 0.6
+  _maxScale: 1.2
+  _prewarmPerPrefab: 4
+  _maxPerPrefab: 10
+--- !u!4 &318848858
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318848856}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.93797, y: 2.55834, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &361229094 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 565417915056476365, guid: b7a2c1956e926f14c8f1ae8f44d09bf3, type: 3}
@@ -1459,7 +1517,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.49019608, g: 0.7647059, b: 0.9411765, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -6119,3 +6177,4 @@ SceneRoots:
   - {fileID: 1616906526}
   - {fileID: 771754273}
   - {fileID: 6426249783109933517}
+  - {fileID: 318848858}
