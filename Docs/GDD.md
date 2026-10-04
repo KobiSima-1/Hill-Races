@@ -5,7 +5,7 @@ _Hill Races_
 |                                        |                                                                          |
 | -------------------------------------- | ------------------------------------------------------------------------ |
 | **Working title**                      | Hill Races                                                               |
-| **Team**                               | Kobi Sima (solo: design, programming, integration)                      |
+| **Team**                               | Kobi Sima (solo: design, programming, integration)                       |
 | **Genre**                              | Arcade / physics-driven side-scrolling hill climber / time-attack course |
 | **Target platform**                    | PC (Windows) standalone                                                  |
 | **Engine / Unity version**             | Unity 6 (6000.3.20f1), URP, 2D                                           |
@@ -92,26 +92,26 @@ stateDiagram-v2
 
 ### Parameters you will need to tune
 
-| Parameter                                              | What it controls                                                                                                                                                     | Value                                  |
-| ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| `bodyMass` / `wheelMass`                               | The buggy's inertia. The ratio decides whether it feels like a vehicle or a shopping trolley                                                                        | 120 / 15                               |
-| `centerOfMassOffset`                                   | **The single most important number in the project.** How easily the buggy wheelies and flips                                                                       | (0, -0.30)                             |
-| `maxMotorSpeed`                                        | Wheel angular speed cap in °/s. With a 0.35 u wheel, 1700 °/s ≈ 10.4 u/s ground speed                                                                               | **1700 °/s** (tuned, was 1600)         |
-| `motorTorque`                                          | Whether the buggy can climb a steep face or just spins its wheels                                                                                                    | **700** (tuned, was 800)               |
-| `motorRampRate`                                        | How committed throttle feels off the line                                                                                                                            | 2500 °/s²                              |
-| `reverseFraction`                                      | How much of full power reverse gets                                                                                                                                  | 0.5                                    |
-| `airTorque`                                            | Rotation speed in air. Too high and every jump becomes a flip                                                                                                        | **600** (tuned, was 220)               |
-| `suspensionFrequency` / `dampingRatio`                 | Ride softness                                                                                                                                                        | **3.4 Hz / 0.5** (tuned, was 4.0 / 0.7) |
-| `nitroSpeedMultiplier` / `nitroTorqueMultiplier`       | How hard nitro pushes. Too high and the buggy wheelies over on the first hill                                                                                        | 1.5 / 1.3                              |
-| `fuelCapacity` / `fuelDrainIdle` / `fuelDrainThrottle` | The run clock. Tuned per course so a cautious line runs dry before the finish                                                                                        | **100 / 1.5 /s / 1.5 /s**              |
-| `fuelPerCan`                                           | How much one risky detour is worth, and the main fairness dial on pillar 1                                                                                          | 35                                     |
-| `warningLevel`                                         | When the fuel bar starts to blink and beep                                                                                                                           | **15%** (tuned, was 20%)               |
-| `minAirTime` / `settleTime`                            | What counts as a jump, and how long the buggy must sit on both wheels before it is judged                                                                            | 0.4 s / 0.2 s                          |
-| `rotationTolerance` / `minAttemptRotation`             | How far from a whole turn still counts (take-off and landing slopes differ), and when a failed jump gets a message                                                   | **60°** / 180°                         |
-| `nitroPerFlip` / `comboBonus`                          | Whether flips are worth attempting, against the fuel and risk they cost                                                                                             | 1.5 s / 1 s                            |
-| `coastDrag` / `restSpeed` / `restDuration` / `maxCoastDuration` | How quickly the coast-out ends once the engine cuts                                                                                                   | 1 / 0.3 u/s / 1 s / 8 s                |
-| `flippedAngle` / `stuckSpeed` / `stuckDuration`        | When a buggy lying upside down counts as crashed                                                                                                                     | 110° / 0.5 u/s / 1 s                   |
-| `goldTime` / `silverTime` / `bronzeTime`               | Medal thresholds, set per course after the course is playable, never guessed in advance                                                                             | Re-set from playtests on the redesigned Course01 |
+| Parameter                                                       | What it controls                                                                                                   | Value                                                                              |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| `bodyMass` / `wheelMass`                                        | The buggy's inertia. The ratio decides whether it feels like a vehicle or a shopping trolley                       | 120 / 15                                                                           |
+| `centerOfMassOffset`                                            | **The single most important number in the project.** How easily the buggy wheelies and flips                       | (0, -0.30)                                                                         |
+| `maxMotorSpeed`                                                 | Wheel angular speed cap in °/s. With a 0.35 u wheel, 1700 °/s ≈ 10.4 u/s ground speed                              | **1700 °/s** (tuned, was 1600)                                                     |
+| `motorTorque`                                                   | Whether the buggy can climb a steep face or just spins its wheels                                                  | **700** (tuned, was 800)                                                           |
+| `motorRampRate`                                                 | How committed throttle feels off the line                                                                          | 2500 °/s²                                                                          |
+| `reverseFraction`                                               | How much of full power reverse gets                                                                                | 0.5                                                                                |
+| `airTorque`                                                     | Rotation speed in air. Too high and every jump becomes a flip                                                      | **600** (tuned, was 220)                                                           |
+| `suspensionFrequency` / `dampingRatio`                          | Ride softness                                                                                                      | **3.4 Hz / 0.5** (tuned, was 4.0 / 0.7)                                            |
+| `nitroSpeedMultiplier` / `nitroTorqueMultiplier`                | How hard nitro pushes. Too high and the buggy wheelies over on the first hill                                      | 1.5 / 1.3                                                                          |
+| `fuelCapacity` / `fuelDrainIdle` / `fuelDrainThrottle`          | The run clock. Tuned per course so a cautious line runs dry before the finish                                      | **100 / 1.5 /s / 1.5 /s**                                                          |
+| `fuelPerCan`                                                    | How much one risky detour is worth, and the main fairness dial on pillar 1                                         | 35                                                                                 |
+| `warningLevel`                                                  | When the fuel bar starts to blink and beep                                                                         | **15%** (tuned, was 20%)                                                           |
+| `minAirTime` / `settleTime`                                     | What counts as a jump, and how long the buggy must sit on both wheels before it is judged                          | 0.4 s / 0.2 s                                                                      |
+| `rotationTolerance` / `minAttemptRotation`                      | How far from a whole turn still counts (take-off and landing slopes differ), and when a failed jump gets a message | **60°** / 180°                                                                     |
+| `nitroPerFlip` / `comboBonus`                                   | Whether flips are worth attempting, against the fuel and risk they cost                                            | 1.5 s / 1 s                                                                        |
+| `coastDrag` / `restSpeed` / `restDuration` / `maxCoastDuration` | How quickly the coast-out ends once the engine cuts                                                                | 1 / 0.3 u/s / 1 s / 8 s                                                            |
+| `flippedAngle` / `stuckSpeed` / `stuckDuration`                 | When a buggy lying upside down counts as crashed                                                                   | 110° / 0.5 u/s / 1 s                                                               |
+| `goldTime` / `silverTime` / `bronzeTime`                        | Medal thresholds, set per course after the course is playable, never guessed in advance                            | **55 / 65 / 80 s** (redesigned Course01, from playtests; a good run is about 62 s) |
 
 Values in bold have been tuned in play, the rest are still first guesses.
 
@@ -123,12 +123,12 @@ Values in bold have been tuned in play, the rest are still first guesses.
 
 ## 4. Controls & Input
 
-| Action                                              | Keyboard        | Gamepad         |
-| --------------------------------------------------- | --------------- | --------------- |
-| Throttle (ground) / rotate nose up (air)            | `D` / `→`       | RT or South (A) |
-| Brake and reverse (ground) / rotate nose down (air) | `A` / `←`       | LT or West (X)  |
-| Restart course                                      | `R`             | North (Y)       |
-| Pause                                               | `Esc` / `P`     | Start           |
+| Action                                              | Keyboard    | Gamepad         |
+| --------------------------------------------------- | ----------- | --------------- |
+| Throttle (ground) / rotate nose up (air)            | `D` / `→`   | RT or South (A) |
+| Brake and reverse (ground) / rotate nose down (air) | `A` / `←`   | LT or West (X)  |
+| Restart course                                      | `R`         | North (Y)       |
+| Pause                                               | `Esc` / `P` | Start           |
 
 There are **only two gameplay inputs**, and they are the same two in both contexts. Nitro has no button: it is earned, not triggered. Pillar 2 depends on one button meaning two things, so a third gameplay input would break it.
 
@@ -144,7 +144,7 @@ There are **only two gameplay inputs**, and they are the same two in both contex
 
 ![Wireframe of the main screens and the in-play HUD](images/screens-wireframe.png)
 
-1. **Main Menu** (its own scene, build index 0): title "HILL RACES", the best result for the course read from `PlayerPrefs` (best time, best medal, most coins, or "NO RECORDS YET"), and `DRIVE` / `QUIT` buttons. `QUIT` hides itself in a WebGL build.
+1. **Main Menu** (its own scene, build index 0): the course's grass and dirt with a parked buggy and drifting clouds behind the title "HILL RACES", the best result for the course read from `PlayerPrefs` (best time, best medal, most coins, or "NO RECORDS YET"), and `DRIVE` / `MUSIC: ON|OFF` / `QUIT` buttons. The music choice is saved, so it holds across sessions. `QUIT` hides itself in a WebGL build.
 2. **Gameplay:** the HUD below.
 3. **Flip popup:** under the top edge of the screen, pops in large, holds, then fades in a coroutine. Yellow for a clean flip (`DOUBLE BACKFLIP!` / `NITRO +4.0s`), red for a missed one (`LAME LANDING!` / `NOT GOOD ENOUGH!`). A new message restarts it.
 4. **Results (course finished):** finish time, medal earned, coins collected, and one line against the saved record: `NEW BEST TIME!`, or the best time still standing. Buttons `RETRY` and `MENU`.
@@ -166,29 +166,30 @@ There are **only two gameplay inputs**, and they are the same two in both contex
 
 "LucyLavend pack" below is the _Physics Car Game Asset Pack_ by LucyLavend.
 
-| Asset                   | Variants / frames                                                     | Source                                   | Use                                                                    |
-| ----------------------- | --------------------------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------- |
-| Buggy body              | 1 side-view chassis (`RedCar`)                                        | LucyLavend pack                          | `Rigidbody2D` body                                                     |
-| Wheels                  | 2 identical (`Wheel`)                                                 | LucyLavend pack                          | Separate bodies, drawn behind the body                                 |
-| Driver                  | 1 seated figure with a distinct head (`Body2` + `Head2`)              | LucyLavend pack                          | Visual. The head carries the failure collider                          |
-| Fuel can                | 1                                                                     | LucyLavend pack                          | Pickup, placed by hand                                                 |
-| Coin                    | 3 values (5 / 10 / 50), prefabs `FiveCoin` / `TenCoin` / `FiftyCoin`  | LucyLavend pack                          | Pickup, placed by hand. 5 on the safe line, 10 on jump arcs, 50 only at the riskiest points |
-| Terrain, dirt fill      | 1 tiling texture (`DirtBG`)                                           | LucyLavend pack                          | Body of the course mesh                                                |
-| Terrain, grass edge     | 1 tiling strip (`Grass`)                                              | LucyLavend pack                          | Top edge of the course mesh                                            |
-| Clouds                  | 3, sliced from one sheet (`Clouds`)                                   | LucyLavend pack                          | Pooled parallax clouds over a light blue sky                           |
-| HUD stopwatch icon      | 1                                                                     | Made for this project                    | HUD clock row                                                          |
-| Gas and brake pedals    | 2                                                                     | Made for this project                    | HUD bottom corners                                                     |
-| Speedometer dial and needle | 2                                                                 | Made for this project                    | HUD bottom centre                                                      |
-| Dust puff               | 1 soft white round sprite, tinted per prefab                          | Made for this project                    | Wheel dust, nitro flame, explosion fire and smoke                      |
-| Log bridge              | 1                                                                     | Made for this project                    | Bridges over the ravines                                             |
-| Finish pole             | 1                                                                     | LucyLavend pack                          | Marks the finish trigger                                               |
-| Engine loop, coin, fuel | 3                                                                     | LucyLavend pack                          | Engine pitch, pickups                                                  |
-| Gravel roll loop        | 1, edited into a seamless loop                                        | Pixabay ("Gravel Road", freesound_community) | Tyres on the dirt, louder and higher with speed                    |
-| Explosion               | 1, trimmed to 3.5 s with a fade                                       | Mixkit ("Car explosion debris")          | The crash                                                              |
-| Nitro activation        | 1, trimmed to 2.5 s with a fade                                       | Downloaded, source in `Docs/CREDITS.md`  | Plays once when the nitro kicks in                                     |
-| Low-fuel beep           | 1                                                                     | Made for this project                    | Fuel warning                                                           |
+| Asset                       | Variants / frames                                                       | Source                                       | Use                                                                                         |
+| --------------------------- | ----------------------------------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Buggy body                  | 1 side-view chassis (`RedCar`)                                          | LucyLavend pack                              | `Rigidbody2D` body                                                                          |
+| Wheels                      | 2 identical (`Wheel`)                                                   | LucyLavend pack                              | Separate bodies, drawn behind the body                                                      |
+| Driver                      | 1 seated figure with a distinct head (`Body2` + `Head2`)                | LucyLavend pack                              | Visual. The head carries the failure collider                                               |
+| Fuel can                    | 1                                                                       | LucyLavend pack                              | Pickup, placed by hand                                                                      |
+| Coin                        | 3 values (5 / 10 / 50), prefabs `FiveCoin` / `TenCoin` / `FiftyCoin`    | LucyLavend pack                              | Pickup, placed by hand. 5 on the safe line, 10 on jump arcs, 50 only at the riskiest points |
+| Terrain, dirt fill          | 1 tiling texture (`DirtBG`)                                             | LucyLavend pack                              | Body of the course mesh                                                                     |
+| Terrain, grass edge         | 1 tiling strip (`Grass`)                                                | LucyLavend pack                              | Top edge of the course mesh                                                                 |
+| Clouds                      | 3, sliced from one sheet (`Clouds`)                                     | LucyLavend pack                              | Pooled parallax clouds over a light blue sky                                                |
+| HUD stopwatch icon          | 1                                                                       | Made for this project                        | HUD clock row                                                                               |
+| Gas and brake pedals        | 2                                                                       | Made for this project                        | HUD bottom corners                                                                          |
+| Speedometer dial and needle | 2                                                                       | Made for this project                        | HUD bottom centre                                                                           |
+| Dust puff                   | 1 soft white round sprite, tinted per prefab                            | Made for this project                        | Wheel dust, nitro flame, explosion fire and smoke                                           |
+| Log bridge                  | 1                                                                       | Made for this project                        | Bridges over the ravines                                                                    |
+| Finish pole                 | 1                                                                       | LucyLavend pack                              | Marks the finish trigger                                                                    |
+| Engine loop, coin, fuel     | 3                                                                       | LucyLavend pack                              | Engine pitch, pickups                                                                       |
+| Gravel roll loop            | 1, edited into a seamless loop                                          | Pixabay ("Gravel Road", freesound_community) | Tyres on the dirt, louder and higher with speed                                             |
+| Explosion                   | 1, trimmed to 3.5 s with a fade                                         | Mixkit ("Car explosion debris")              | The crash                                                                                   |
+| Nitro activation            | 1, trimmed to 2.5 s with a fade                                         | Downloaded, source in `Docs/CREDITS.md`      | Plays once when the nitro kicks in                                                          |
+| Low-fuel beep               | 1                                                                       | Made for this project                        | Fuel warning                                                                                |
+| Music                       | 1 track ("Blues Country"), trailing silence trimmed so it loops cleanly | Pixabay (LiteSaturation)                     | Menu and gameplay, one continuous loop across scenes                                        |
 
-**Licence note:** the vehicle, driver, pickup, terrain and cloud sprites, plus the engine, coin and fuel sounds, come from LucyLavend's _Physics Car Game Asset Pack_ (free for personal and commercial use; resale and redistribution of the assets on their own are not permitted), used in this course project with the lecturer's approval. `Head.png` from that pack is the Godot engine logo and is deliberately not used. The gravel loop is under the Pixabay Content License and the explosion under the Mixkit Sound Effects Free License: both allow use inside a game without attribution, and both are credited anyway, as is the nitro activation sound. Everything marked "Made for this project" was drawn or synthesised for this game. Every source is listed in `Docs/CREDITS.md`. Asset packs advertised as containing the original _Hill Climb Racing_ files were specifically rejected: a re-upload of a commercial game's assets carries no licence the uploader could grant, and this repository is public.
+**Licence note:** the vehicle, driver, pickup, terrain and cloud sprites, plus the engine, coin and fuel sounds, come from LucyLavend's _Physics Car Game Asset Pack_ (free for personal and commercial use; resale and redistribution of the assets on their own are not permitted), used in this course project with the lecturer's approval. `Head.png` from that pack is the Godot engine logo and is deliberately not used. The gravel loop and the music are under the Pixabay Content License and the explosion under the Mixkit Sound Effects Free License: both allow use inside a game without attribution, and both are credited anyway, as is the nitro activation sound. Everything marked "Made for this project" was drawn or synthesised for this game. Every source is listed in `Docs/CREDITS.md`. Asset packs advertised as containing the original _Hill Climb Racing_ files were specifically rejected: a re-upload of a commercial game's assets carries no licence the uploader could grant, and this repository is public.
 
 **Terrain rendering:** the course is authored as `EdgeCollider2D` points directly in the scene, using Unity's built-in collider point editor. At load, `CourseMeshBuilder` interpolates those points into a smooth centripetal Catmull-Rom curve, writes the curve back into the collider so physics matches the visuals exactly, and builds two meshes from it: a **grass strip** of fixed thickness and a **dirt fill** down to a fixed floor. UVs follow distance along the surface (grass) and world position (dirt), so both textures tile with no seams. Each **log bridge** is a prefab: a sprite with a horizontal `CapsuleCollider2D` on the `Ground` layer; its rounded ends let the wheels roll on and off it smoothly.
 
@@ -196,7 +197,7 @@ There are **only two gameplay inputs**, and they are the same two in both contex
 
 **Technical art rules:** bilinear filtering, PPU set per sprite so that the wheel radius is 0.35 u and the wheels sit in the body's wheel arches (`RedCar` 160, `Wheel` 183, `Body2` 160, `Head2` 400). Sorting layers back to front: `TerrainFill` → `TerrainEdge` → default (vehicle, pickups, effects) → UI. Clouds are at order -20 so they stay behind everything. Inside the vehicle, the order is driver (-2) → wheels (-1) → body (0), so that on a hard landing the wheels ride up _behind_ the body.
 
-**Audio:** one persistent `AudioManager` with three child sources, each on its own named object so they cannot be confused in the Inspector: **engine** (loop, pitch eased toward the wheel spin, plus a fixed boost during nitro), **roll** (gravel loop, always playing, its volume and pitch faded with ground speed and silenced in the air, so touching down never clicks), and **effects** (one-shots: coin, fuel can, nitro, low-fuel beep, explosion, each with its own volume). When a scene loads the effects source is stopped, so a long explosion never carries over into the next attempt.
+**Audio:** one persistent `AudioManager` with four child sources, each on its own named object so they cannot be confused in the Inspector: **engine** (loop, pitch eased toward the wheel spin, plus a fixed boost during nitro), **roll** (gravel loop, always playing, its volume and pitch faded with ground speed and silenced in the air, so touching down never clicks), **effects** (one-shots: coin, fuel can, nitro, low-fuel beep, explosion, each with its own volume), and **music** (one loop that starts in the menu and plays on unbroken through every course and retry, because the manager is never reloaded). When a scene loads the effects source is stopped, so a long explosion never carries over into the next attempt. The menu's music toggle mutes the music rather than stopping it, so turning it back on continues the song.
 
 ---
 
@@ -224,7 +225,7 @@ graph TD
     GM -.state.-> VE[VehicleExplosion<br/>fire, smoke, shake, debris]
     GM -.events.-> UI[UIManager<br/>HUD, results, game over]
     PM[PauseMenu] --> GM
-    AM[AudioManager<br/>persistent singleton] 
+    AM[AudioManager<br/>persistent singleton]
     EA[EngineAudio / WheelRollAudio] --> AM
     LFA[LowFuelAlarm] --> AM
     POOL[PoolService of T<br/>generic ObjectPool wrapper] -.-> DUST[Wheel dust, nitro flame,<br/>explosion fire and smoke, clouds]
@@ -235,33 +236,33 @@ graph TD
     SAVE -.-> MM[MainMenu]
 ```
 
-| Script              | Responsibility                                                                            |
-| ------------------- | ----------------------------------------------------------------------------------------- |
-| `GameManager`       | Owns the run state machine, the course timer, the coast-out and crash coroutines, coins, and the finish record |
-| `VehicleController` | Applies the two inputs as motor drive on the ground and body torque in the air; burns nitro |
-| `FlipTracker`       | Sums rotation, judges each jump once the buggy settles, rewards clean flips with nitro, reports missed ones |
-| `CrashDetector`     | Watches the driver-head trigger and a buggy stuck upside down, and raises the crash event |
-| `VehicleExplosion`  | On the `Crashed` state: pooled fire and smoke, boom, camera impulse, wheels torn off, body charred |
-| `FuelSystem`        | Drains and refills fuel, raises the empty event that starts the coast-out                 |
-| `CourseMeshBuilder` | Turns the authored collider points into the grass strip and dirt fill meshes              |
-| `Pickup`            | One hand-placed coin or fuel can: reports collection, plays its sound, deactivates itself |
-| `FinishTrigger`     | Detects the vehicle crossing the line once and raises an event                            |
-| `UIManager`         | Binds the HUD and the two end screens to `GameManager` and `FuelSystem` events            |
-| `FlipPopup`         | Shows the flip or missed-flip message in a pop, hold and fade coroutine                   |
-| `Speedometer` / `PedalDisplay` | The needle gauge and the two pedals on the HUD                                 |
-| `LowFuelAlarm`      | Blinks the fuel bar and beeps below the warning level, faster as the tank empties         |
-| `PauseMenu`         | Esc / P / Start pause, `timeScale` and audio pause, resume / restart / menu               |
-| `MainMenu`          | Shows the saved bests, starts the course, quits                                           |
-| `SceneLoader`       | Static. The one place that knows the scene names                                          |
-| `TimeFormatter`     | Static. Formats a run time as `m:ss.ff` everywhere                                        |
-| `AudioManager`      | Persistent singleton: engine, roll and effect sources                                     |
-| `EngineAudio` / `WheelRollAudio` | Feed the AudioManager the revs, the nitro state and the ground speed         |
-| `PoolService<T>`    | Generic wrapper over `UnityEngine.Pool.ObjectPool<T>` with pre-warm, get and release      |
-| `DustPuff`          | One pooled puff: grows, drifts (with an optional launch velocity), fades or follows a colour gradient, releases itself |
-| `WheelDustEmitter` / `NitroFlame` | Take puffs from a pool behind the grounded wheels and out of the exhaust    |
-| `CloudSpawner` / `Cloud` | Pooled parallax clouds                                                               |
-| `SaveService`       | Static. Reads and writes best time, best medal and most coins per course                  |
-| `VehicleConfig` / `CourseConfig` | The two ScriptableObjects                                                    |
+| Script                            | Responsibility                                                                                                         |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `GameManager`                     | Owns the run state machine, the course timer, the coast-out and crash coroutines, coins, and the finish record         |
+| `VehicleController`               | Applies the two inputs as motor drive on the ground and body torque in the air; burns nitro                            |
+| `FlipTracker`                     | Sums rotation, judges each jump once the buggy settles, rewards clean flips with nitro, reports missed ones            |
+| `CrashDetector`                   | Watches the driver-head trigger and a buggy stuck upside down, and raises the crash event                              |
+| `VehicleExplosion`                | On the `Crashed` state: pooled fire and smoke, boom, camera impulse, wheels torn off, body charred                     |
+| `FuelSystem`                      | Drains and refills fuel, raises the empty event that starts the coast-out                                              |
+| `CourseMeshBuilder`               | Turns the authored collider points into the grass strip and dirt fill meshes                                           |
+| `Pickup`                          | One hand-placed coin or fuel can: reports collection, plays its sound, deactivates itself                              |
+| `FinishTrigger`                   | Detects the vehicle crossing the line once and raises an event                                                         |
+| `UIManager`                       | Binds the HUD and the two end screens to `GameManager` and `FuelSystem` events                                         |
+| `FlipPopup`                       | Shows the flip or missed-flip message in a pop, hold and fade coroutine                                                |
+| `Speedometer` / `PedalDisplay`    | The needle gauge and the two pedals on the HUD                                                                         |
+| `LowFuelAlarm`                    | Blinks the fuel bar and beeps below the warning level, faster as the tank empties                                      |
+| `PauseMenu`                       | Esc / P / Start pause, `timeScale` and audio pause, resume / restart / menu                                            |
+| `MainMenu`                        | Shows the saved bests, starts the course, toggles the music, quits                                                     |
+| `SceneLoader`                     | Static. The one place that knows the scene names                                                                       |
+| `TimeFormatter`                   | Static. Formats a run time as `m:ss.ff` everywhere                                                                     |
+| `AudioManager`                    | Persistent singleton: engine, roll, effect and music sources, and the music toggle                                     |
+| `EngineAudio` / `WheelRollAudio`  | Feed the AudioManager the revs, the nitro state and the ground speed                                                   |
+| `PoolService<T>`                  | Generic wrapper over `UnityEngine.Pool.ObjectPool<T>` with pre-warm, get and release                                   |
+| `DustPuff`                        | One pooled puff: grows, drifts (with an optional launch velocity), fades or follows a colour gradient, releases itself |
+| `WheelDustEmitter` / `NitroFlame` | Take puffs from a pool behind the grounded wheels and out of the exhaust                                               |
+| `CloudSpawner` / `Cloud`          | Pooled parallax clouds                                                                                                 |
+| `SaveService`                     | Static. Reads and writes best time, best medal and most coins per course, and the music setting                        |
+| `VehicleConfig` / `CourseConfig`  | The two ScriptableObjects                                                                                              |
 
 ### The course features you are implementing
 
@@ -269,7 +270,7 @@ graph TD
 2. **Singleton** (`GameManager`, `AudioManager`): both guarded in `Awake` against duplicates, with a static `Instance`. They differ in lifetime, deliberately. `GameManager` is **per-scene**: it clears `Instance` in `OnDestroy`, and a retry brings a fresh one, since a persistent one would hold references to the previous scene's buggy. `AudioManager` is `DontDestroyOnLoad`, so there is one set of audio sources for the whole session. Because it outlives every scene, the components that drive it silence the engine and the roll in their own `OnDisable`, and it stops its effects source itself when a scene loads.
 3. **Coroutines** (session 5): the coast-out, the crash sequence, the end-screen input lockout, and the flip popup's pop, hold and fade. Each is a timed sequence with waits, which a coroutine expresses directly instead of a hand-rolled timer state machine in `Update`.
 4. **ScriptableObject:** `VehicleConfig` is what a vehicle _is_ (mass, suspension, motor, air torque, nitro). `CourseConfig` is what one course _asks of it_ (fuel budget and medal times). A second vehicle or a second course would each be one new asset, with neither touching the other's tuning.
-5. **PlayerPrefs** (`SaveService`): best time, best medal, and most coins, keyed per course by scene name, written only when beaten and read by the main menu. Each best is compared on its own, so a slow run with many coins still keeps its coin record. `PlayerPrefs.Save()` is called straight away.
+5. **PlayerPrefs** (`SaveService`): best time, best medal, and most coins, keyed per course by scene name, written only when beaten and read by the main menu. Each best is compared on its own, so a slow run with many coins still keeps its coin record. The music on/off choice is saved the same way. `PlayerPrefs.Save()` is called straight away.
 6. **Events** (C# `Action`), subscribed in `OnEnable` and removed in `OnDisable`: crash, finish, fuel changed and emptied, coins changed, run state changed, flip landed and flip missed. Nothing polls another object for something that is an event.
 7. **Cinemachine 3** (session 8): one `CinemachineCamera` following the buggy, plus a `CinemachineImpulseSource` on the buggy and a `CinemachineImpulseListener` on the camera for the explosion shake. No camera code is written by hand.
 8. **Windows standalone build.**
@@ -304,10 +305,12 @@ graph TD
 - [x] Gas and brake pedals and a speedometer on the HUD
 - [x] Light blue sky with pooled parallax clouds
 - [x] Log bridges on the course
+- [x] Looping background music with an on/off toggle in the menu, saved in `PlayerPrefs`
 - [ ] A second vehicle (a Trials-style motorbike), sharing the course
 - [ ] A second course, as a new scene plus a new `CourseConfig`
 - [ ] Android build with on-screen pedals as touch buttons
 - [ ] WebGL build
+- [ ] A upgrade shop with exactly four upgrades
 
 ### 8.3 Explicitly out of scope
 
@@ -324,10 +327,10 @@ graph TD
 
 ## Changelog
 
-| Version | Date       | Change                                          |
-| ------- | ---------- | ----------------------------------------------- |
-| v0.1    | 2026-09-15 | Initial draft (Hill Climb Racing-based concept) |
-| v0.2    | 2026-09-25 | Asset pack chosen (LucyLavend), licence note and art table updated, PPU rule and in-vehicle draw order set, suspension tuned to 3.4 Hz / 0.5, broken tables repaired |
-| v0.3    | 2026-09-30 | Motor and air torque tuned. Fuel drain lowered to 1.5 / 1.5. Coast-out rolling drag and time limit added. Finishing while coasting allowed. GameManager made a per-scene singleton, AudioManager stays persistent. Pickups placed by hand, not pooled |
-| v0.4    | 2026-10-02 | Medal times set from playtests. Crash also when stuck upside down. HUD redesigned as a top-left icon column. Results show the saved best. End-screen input lockout. Wheels use Continuous collision. Coins are 5 / 10 / 50. SaveService keyed per course |
-| v0.5    | 2026-10-04 | Style points replaced by **nitro**: a clean flip (wheels land first, judged once the buggy settles) earns nitro, with combos and a popup for hits and misses. `ScoringConfig` and `LandingResolver` dropped; the flip rules live on `FlipTracker`. Crash became an **explosion** with pooled fire and smoke, camera impulse and flying wheels. Audio: persistent AudioManager with engine, gravel roll and effect sources, explosion and low-fuel beep. Pause menu, main menu scene, MENU buttons. HUD gained pedals, a speedometer and a blinking low-fuel bar (15%). Light blue sky with pooled parallax clouds. Course redesigned with log bridges. Target narrowed to Windows; WebGL, touch and mouse input moved out of the MVP |
+| Version | Date       | Change                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| v0.1    | 2026-09-15 | Initial draft (Hill Climb Racing-based concept)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| v0.2    | 2026-09-25 | Asset pack chosen (LucyLavend), licence note and art table updated, PPU rule and in-vehicle draw order set, suspension tuned to 3.4 Hz / 0.5, broken tables repaired                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| v0.3    | 2026-09-30 | Motor and air torque tuned. Fuel drain lowered to 1.5 / 1.5. Coast-out rolling drag and time limit added. Finishing while coasting allowed. GameManager made a per-scene singleton, AudioManager stays persistent. Pickups placed by hand, not pooled                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| v0.4    | 2026-10-02 | Medal times set from playtests. Crash also when stuck upside down. HUD redesigned as a top-left icon column. Results show the saved best. End-screen input lockout. Wheels use Continuous collision. Coins are 5 / 10 / 50. SaveService keyed per course                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| v0.5    | 2026-10-04 | Style points replaced by **nitro**: a clean flip (wheels land first, judged once the buggy settles) earns nitro, with combos and a popup for hits and misses. `ScoringConfig` and `LandingResolver` dropped; the flip rules live on `FlipTracker`. Crash became an **explosion** with pooled fire and smoke, camera impulse and flying wheels. Audio: persistent AudioManager with engine, gravel roll and effect sources, explosion and low-fuel beep. Pause menu, main menu scene, MENU buttons. HUD gained pedals, a speedometer and a blinking low-fuel bar (15%). Light blue sky with pooled parallax clouds. Course redesigned with log bridges, medal times re-set to 55 / 65 / 80 s. Looping music with a saved on/off toggle. Main menu shows the course terrain, a parked buggy and clouds. Target narrowed to Windows; WebGL, touch and mouse input moved out of the MVP |

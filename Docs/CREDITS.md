@@ -1,7 +1,6 @@
 # Credits
 
-This file lists the source and licence of every third-party asset in the
-project. It is updated as assets are chosen.
+The source and licence of every asset in the project that was not written as code for it.
 
 ## Physics Car Game Asset Pack
 
@@ -9,32 +8,46 @@ project. It is updated as assets are chosen.
 **Source:** https://lucylavend.itch.io/physics-car-game-asset-pack
 **Terms:** free for personal and commercial use; resale and redistribution
 of the assets on their own are not permitted. Credit is optional and is
-given here.
+given here. Used in this course project with the lecturer's approval.
 
-| Asset                 | Files used                                |
-| --------------------- | ----------------------------------------- |
-| Buggy body and wheels | `Car.png`, `RedCar.png`, `Wheel*.png`     |
-| Driver                | `Body.png`, `Body2.png`, `Head2.png`      |
-| Fuel can, coins       | `Fuel.png`, `Coin5/10/25/50.png`          |
-| Low-fuel warning icon | `Alarm.png`                               |
-| Terrain - dirt fill   | `DirtBG.png`                              |
-| Terrain - grass edge  | `Grass.png`                               |
-| Backdrop              | `SceneBG.png`, `Clouds.png`               |
-| Sound effects         | `EngineSound.ogg`, `Coin.wav`, `Fuel.wav` |
+| Asset                 | Files used                                          |
+| --------------------- | --------------------------------------------------- |
+| Buggy body and wheels | `RedCar.png`, `Wheel.png`                           |
+| Driver                | `Body2.png`, `Head2.png`                            |
+| Fuel can, coins       | `Fuel.png`, `Coin5.png`, `Coin10.png`, `Coin50.png` |
+| Terrain, dirt fill    | `DirtBG.png`                                        |
+| Terrain, grass edge   | `Grass.png`                                         |
+| Clouds                | `Clouds.png` (sliced into three sprites)            |
+| Sound effects         | `EngineSound.ogg`, `Coin.wav`, `Fuel.wav`           |
 
-## Other assets
+`Head.png` from this pack (the Godot engine logo) is deliberately not used.
 
-Assets not covered by the pack above are used only if their source page
-states **CC0 1.0** explicitly - on itch.io, that is the **Asset licence**
-field in the page's info table.
+## Sound effects
 
-| Asset                                    | Author / Source | Licence |
-| ---------------------------------------- | --------------- | ------- |
-| Finish gate                              |                 | CC0 1.0 |
-| Parallax layers (far / near)             |                 | CC0 1.0 |
-| Dust and debris particles                |                 | CC0 1.0 |
-| SFX - landing, crash, engine-die, finish |                 | CC0 1.0 |
-| Music loop                               |                 | CC0 1.0 |
+| File                  | Source                                                                     | Licence                           |
+| --------------------- | -------------------------------------------------------------------------- | --------------------------------- |
+| `GravelRoll.wav`      | "Gravel Road" by freesound_community, Pixabay. Edited into a seamless loop | Pixabay Content License           |
+| `Explosion.wav`       | "Car explosion debris", Mixkit. Trimmed to 3.5 s with a fade out           | Mixkit Sound Effects Free License |
+| `NitroActivation.wav` | "Pure nitro activation", SOURCE_SITE. Trimmed to 2.5 s with a fade out     | LICENCE                           |
+
+## Music
+
+| File            | Source                                                                                   | Licence                 |
+| --------------- | ---------------------------------------------------------------------------------------- | ----------------------- |
+| `GameMusic.ogg` | "Blues Country" by LiteSaturation, Pixabay. Trailing silence trimmed so it loops cleanly | Pixabay Content License |
+
+## Made for this project
+
+Drawn or synthesised for this game, and released with it.
+
+| File                               | Use                                               |
+| ---------------------------------- | ------------------------------------------------- |
+| `Clock.png`                        | HUD stopwatch icon                                |
+| `DustPuff.png`                     | Wheel dust, nitro flame, explosion fire and smoke |
+| `GasPedal.png`, `BrakePedal.png`   | HUD pedals                                        |
+| `SpeedDial.png`, `SpeedNeedle.png` | HUD speedometer                                   |
+| `LogBridge.png`                    | Log bridges on the course                         |
+| `BridgePlank.png`                  | bridge planks on the course                       |
 
 ## Rejected sources
 
@@ -42,7 +55,3 @@ Asset packs advertised as containing the original _Hill Climb Racing_
 game files were not used. A third-party re-upload of a commercial
 game's assets carries no licence the uploader had standing to grant,
 and this repository is public.
-
-## Sound effects
-- GravelRoll.wav: edited into a seamless loop from "Gravel Road" (freesound_community, Pixabay, Pixabay Content License)
-- Explosion.wav: trimmed from "Car explosion debris" (Mixkit, Mixkit Sound Effects Free License)
