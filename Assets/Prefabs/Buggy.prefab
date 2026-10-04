@@ -287,6 +287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EngineAudio
   _vehicle: {fileID: 7937505628487345309}
   _throttleRevs: 0.35
+  _nitroStartSound: {fileID: 8300000, guid: c3c83473808c28044953f27fd6fee2b3, type: 3}
 --- !u!114 &9117711292379837474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,6 +388,7 @@ MonoBehaviour:
   _wheelLaunchSpeed: 8
   _charredColor: {r: 0.25, g: 0.22, b: 0.2, a: 1}
   _explosionSound: {fileID: 8300000, guid: 0c711d12861fd244fbb209c8c24f78fb, type: 3}
+  _explosionVolume: 0.6
   _shakeForce: 1
 --- !u!114 &7867344740332231857
 MonoBehaviour:
@@ -407,6 +409,7 @@ MonoBehaviour:
   _minAirTime: 0.4
   _settleTime: 0.2
   _rotationTolerance: 50
+  _minAttemptRotation: 180
   _logJumps: 0
   _nitroPerFlip: 1.5
   _comboBonus: 1

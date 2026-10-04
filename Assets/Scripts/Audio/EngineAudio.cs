@@ -3,12 +3,17 @@ using UnityEngine;
 /// <summary>
 /// Sits on the buggy and tells the AudioManager how hard the engine is working (GDD §6).
 /// The engine runs only while the run is being driven: it dies with the fuel, a crash, or the finish.
+/// Nitro makes it scream: a whoosh when it kicks in, and a higher pitch while it burns.
 /// </summary>
 public class EngineAudio : MonoBehaviour
 {
     [SerializeField] private VehicleController _vehicle;
     [Tooltip("Revs while the throttle is held but the wheels are not yet spinning, so pressing gas is always heard.")]
     [SerializeField, Range(0f, 1f)] private float _throttleRevs = 0.35f;
+    [Tooltip("Played once when the nitro kicks in.")]
+    [SerializeField] private AudioClip _nitroStartSound;
+
+    private bool _wasNitroActive;
 
     private void Update()
     {
@@ -27,7 +32,14 @@ public class EngineAudio : MonoBehaviour
             revs = Mathf.Max(revs, _throttleRevs);
         }
 
-        audio.SetEngine(running, revs);
+        bool nitro = _vehicle.IsNitroActive;
+        if (nitro && !_wasNitroActive)
+        {
+            audio.PlaySfx(_nitroStartSound);
+        }
+
+        _wasNitroActive = nitro;
+        audio.SetEngine(running, revs, nitro);
     }
 
     private void OnDisable()
